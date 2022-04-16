@@ -42,6 +42,23 @@ const upload = multer({
   },
 });
 
+// const ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID;
+// const AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN;
+// const client = require("twilio")("ACCOUNT_SID", "AUTH_TOKEN");
+
+// const SENDGRID_PASSWORDD = process.env.SENDGRID_PASSWORD;
+
+// const transporter = nodemailer.createTransport(
+//   sendgridTransport({
+//     auth: {
+//       api_key: "SENDGRID_PASSWORDD",
+//     },
+//   })
+// );
+// `-`;
+
+// console.log(process.env);       //remove
+
 app.use(express.json());
 app.use(
   cors({
@@ -49,6 +66,25 @@ app.use(
     credentials: true,
   })
 );
+
+const braintree = require("braintree");
+
+const gateway = new braintree.BraintreeGateway({
+  environment: braintree.Environment.Sandbox,
+  merchantId: process.env.BRAINTREE_MERCHANT_ID,
+  publicKey: process.env.BRAINTREE_PUBLIC_KEY,
+  privateKey: process.env.BRAINTREE_PRIVATE_KEY,
+});
+exports.generateToken = (req, res) => {
+  gateway.clientToken
+    .generate({})
+    .then((response) => {
+      res.status(200).send(response);
+      console.log("responseeeeeeeee" + response);
+    })
+    .catch((err) => res.status(500).send(err));
+};
+
 app.use(cookieParser());
 
 const PORT = process.env.PORT || 5000;
@@ -62,8 +98,15 @@ app.use("/category", require("./routers/categoryRouter"));
 app.use("/authUser", require("./routers/userRouter"));
 app.use("/authOrder", require("./routers/orderRouter"));
 app.use("/cart", require("./routers/cartRouter"));
+app.use("/braintree", require("./routers/braintree"));
+
+// var connect = require("connect");
+// var serveStatic = require("serve-static");
+// connect().use(serveStatic(__dirname)).listen(8000);
 
 app.use("/uploads", express.static("public/uploads"));
+
+// app.use("/public", express.static("public"));
 
 app.post("/upload", upload.single("Pimage"), async (req, res) => {
   try {
@@ -71,6 +114,7 @@ app.post("/upload", upload.single("Pimage"), async (req, res) => {
     console.log(
       "upload................................................................................"
     );
+    // console.log(Pimage.image);
   } catch (err) {
     console.log(err);
   }

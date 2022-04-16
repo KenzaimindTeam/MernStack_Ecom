@@ -31,8 +31,8 @@ import UserChangePassword from "./components/home/UserChangePassword";
 import ResetUser from "./components/auth/ResetUser";
 import UserForgotPassword from "./components/auth/UserForgotPassword";
 // import UProductshop from "./components/home/UProductShop";
-// import UserBasket from "./components/home/UserBasket";
-// import UserCart from "./components/home/UserCart";
+import UserCart from "./components/home/UserCart";
+import PaymentDropIn from "./components/home/PaymentDropIn";
 
 function Router() {
   return (
@@ -63,9 +63,9 @@ function Router() {
           <Route exact path="/userLists" element={<UserLists />} />
           <Route exact path="/reset/:token" element={<ResetMerchant />} />
           <Route exact path="/resetUser/:token" element={<ResetUser />} />
-          {/* <Route exact path="/productshop" element={<UProductshop />} />
-          <Route exact path="/userBasket" element={<UserBasket />} />
-          <Route exact path="/userCart" element={<UserCart />} /> */}
+          {/* <Route exact path="/productshop" element={<UProductshop />} /> */}
+          {/* <Route exact path="/userBasket" element={<UserBasket />} /> */}
+          <Route exact path="/userCart" element={<UserCart />} />
           <Route
             exact
             path="/admincreateCategory"
@@ -93,7 +93,7 @@ function Router() {
           />
           <Route exact path="/productsLists" element={<ProductsLists />} />
           <Route exact path="/editProduct/:id" element={<EditProductList />} />
-
+          <Route exact path="/payment" element={<PaymentDropIn />} />
           <Route
             exact
             path="/merchantRegister"

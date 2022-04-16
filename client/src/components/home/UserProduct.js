@@ -4,17 +4,17 @@ import "bootstrap/dist/css/bootstrap.css";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
-import UProductShop from "../home/UProductShop";
+// import UProductShop from "../home/UProductShop";
 import ReactDOM from "react-dom";
 import ErrorMessage from "../misc/ErrorMessage";
 import { Link, useNavigate } from "react-router-dom";
 import CartBootModal from "../home/CartBootModal";
-import { post } from "jquery";
+// import { post } from "jquery";
+
 // import SearchProducts from "./SearchProducts";
 import { addItem, itemTotal, getCart } from "./CartHelper";
 
 function UserProduct(props) {
-
   // useEffect(() => {
   //   // const productRes = getCart();
   //   setItems(getCart());
@@ -33,10 +33,6 @@ function UserProduct(props) {
 
   const [redirect, setRedirect] = useState(false);
 
-
-
-  
-
   async function getUser() {
     const userRes = await Axios.get("http://localhost:5000/authUser/loggedIn");
     setUser(userRes.data);
@@ -46,7 +42,6 @@ function UserProduct(props) {
   const [items, setItems] = useState([]);
   const [addtocart, setAddtocart] = useState(false);
   // const { cartItems, onAdd, onRemove } = props;
-
   const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(
@@ -77,7 +72,7 @@ function UserProduct(props) {
   const shouldRedirect = (redirect) => {
     if (redirect) {
       //do last after localstorage correction
-       return navigate("/userCart");
+      return navigate("/userCart");
     }
   };
 
@@ -232,12 +227,8 @@ function UserProduct(props) {
                       {/* <Link
                         //  style={isActive(history, "/userCart")}
                         to="/userCart"
-                      > */}
-                        {" "}
-                        <sup>
-                          
-                        {itemTotal()}
-                        </sup>
+                      > */}{" "}
+                      <sup>{itemTotal()}</sup>
                       {/* </Link> */}
                       <svg
                         version="1.1"
