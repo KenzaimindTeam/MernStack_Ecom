@@ -12,7 +12,7 @@ const express = require("express");
 const path = require("path");
 const { Console } = require("console");
 
-const client = require("twilio")("", "");
+/*const client = require("twilio")("", "");
 
 const transporter = nodemailer.createTransport(
   sendgridTransport({
@@ -21,7 +21,7 @@ const transporter = nodemailer.createTransport(
     },
   })
 );
-`-`;
+`-`;*/
 
 const app = express();
 
@@ -272,7 +272,7 @@ router.put("/userUpdate", authUser, async (req, res) => {
       return res.status(400).json({
         errorMessage: "please enter correct Phone number",
       });
- \
+
     const saveUser = await originalUser.save();
     // res.json(saveUser);
     console.log("saved User  is " + saveUser);

@@ -15,7 +15,7 @@ const app = express();
 
 const { Console } = require("console");
 //sendTextMessage
-const client = require("twilio")("", "");
+/*const client = require("twilio")("", "");
 
 const transporter = nodemailer.createTransport(
   sendgridTransport({
@@ -24,7 +24,7 @@ const transporter = nodemailer.createTransport(
     },
   })
 );
-`-`;
+`-`; */
 
 router.post("/", async (req, res) => {
   console.log("merchant router");

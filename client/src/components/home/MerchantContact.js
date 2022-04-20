@@ -244,7 +244,7 @@ function MerchantContact() {
                     <a href="https://html.design/">Free Html Templates</a>
                     <br />
                     Distributed By{" "}
-                    <a href="https://themewagon.com/" target="_blank">
+                    <a href="https://themewagon.com/" target="_blank" rel="noopener" >
                       ThemeWagon
                     </a>
                   </p>
