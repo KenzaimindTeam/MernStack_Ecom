@@ -9,7 +9,7 @@ import ReactDOM from "react-dom";
 import ErrorMessage from "../misc/ErrorMessage";
 import { Link, useNavigate } from "react-router-dom";
 
-function UserDashboard() {
+function UserHome() {
   const [placeName, setPlaceName] = useState("");
   let navigate = useNavigate();
 
@@ -200,8 +200,8 @@ function UserDashboard() {
                 <nav className="navbar navbar-expand-lg custom_nav-container ">
                   <ul className="navbar-nav">
                     <li className="nav-item">
-                      <h4 className="nav-link" to="/userDashboard">
-                        User Dashboard{" "}
+                      <h4 className="nav-link" to="/userHome">
+                        User HOME{" "}
                         <span className="sr-only">(current)</span>
                       </h4>
                     </li>
@@ -403,4 +403,4 @@ function UserDashboard() {
   );
 }
 
-export default UserDashboard;
+export default UserHome;
