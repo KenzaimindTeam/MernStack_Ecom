@@ -6,6 +6,7 @@
 .pnp.js
 /client/node_modules
 /server/node_modules
+<<<<<<< HEAD
 
 
 # testing
@@ -16,6 +17,14 @@
 /build
 ../node_modules
 
+=======
+# testing
+/coverage
+../../node_modules
+# production
+/build
+../node_modules
+>>>>>>> 796a50e5461b2bc2fd0a6e2caf85de4f2146ce91
 # misc
 .DS_Store
 .env.local

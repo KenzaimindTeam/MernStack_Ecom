@@ -96,7 +96,11 @@ app.use("/auth", require("./routers/adminRouter"));
 app.use("/product", require("./routers/productRouter"));
 app.use("/category", require("./routers/categoryRouter"));
 app.use("/authUser", require("./routers/userRouter"));
+<<<<<<< HEAD
 //app.use("/authOrder", require("./routers/orderRouter"));
+=======
+// app.use("/authOrder", require("./routers/orderRouter"));
+>>>>>>> 796a50e5461b2bc2fd0a6e2caf85de4f2146ce91
 app.use("/cart", require("./routers/cartRouter"));
 //app.use("/braintree", require("./routers/braintree"));
 
