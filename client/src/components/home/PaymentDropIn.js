@@ -19,10 +19,20 @@ export default function PaymentDropIn(props) {
   const [items, setItems] = useState([]);
   const { getTotal } = props;
   const [run, setRun] = useState(false);
+  const [address, setAddress] = useState([]);
+  const [pincode, setPincode] = useState([]);
+  const [dropin, setDropin] = useState(true);
+  const [user, setUser] = useState(0);
 
+  async function getUser() {
+    const userRes = await Axios.get("http://localhost:5000/authUser/loggedIn");
+    setUser(userRes.data);
+    console.log("user" + user);
+  }
   useEffect(() => {
     // const productRes = getCart();
     setItems(getCart());
+    getUser();
     // setItems(productRes.data);
   }, [run]);
 
@@ -37,7 +47,7 @@ export default function PaymentDropIn(props) {
   //    instance: {},
   //    address: "",
   //  });
-  const { user, getUser } = useContext(UserContext);
+  // const { user, getUser } = useContext(UserContext);
 
   const [values, setValues] = useState({
     clientToken: null,
@@ -81,9 +91,12 @@ export default function PaymentDropIn(props) {
         .then((response) => {
           console.log("REsponse", response);
           if (response.err) {
-            setValues({ ...values, erroe: response.err });
+            setValues({ ...values, error: response.err });
           } else {
             setValues({ ...values, error: "", success: response.success });
+            saveOrder(paymentData.amount);
+            setDropin(false);
+            alert("Payment successfull");
           }
         })
         .catch((err) => {
@@ -91,19 +104,43 @@ export default function PaymentDropIn(props) {
         });
     });
   };
+  async function saveOrder(amount) {
+    // e.preventDefault();
+    const registerData = {
+      address: address,
+      amount: amount,
+      pincode: pincode,
+      cart: getCart(),
+    };
+    try {
+      console.log("user id============" + user);
 
+      await Axios.post(
+        `http://localhost:5000/order/createOrder/${user}`,
+        registerData
+      );
+    } catch (err) {
+      if (err.response) {
+        if (err.response.data.errorMessage) {
+          setErrorMessage(err.response.data.errorMessage);
+        }
+      }
+
+      return;
+    }
+  }
   const getAmount = () => {
     // let amount = 0;
     // items.map((data, i) => {
     //   amount = amount + data.totalamount;
-      
+
     // });
     //        console.log("amount", amount);
 
     // return amount;
-  return items.reduce((currentValue, nextValue) => {
-    return currentValue + nextValue.count * nextValue.totalamount;
-  }, 0);
+    return items.reduce((currentValue, nextValue) => {
+      return currentValue + nextValue.count * nextValue.totalamount;
+    }, 0);
     // getTotal();
   };
 
@@ -366,7 +403,6 @@ export default function PaymentDropIn(props) {
 
         <section className="arrival_section">
           <div className="container">
-            Braintree payment gateway
             {clientToken && (
               <div>
                 <DropIn
@@ -376,6 +412,28 @@ export default function PaymentDropIn(props) {
                   }
                 />
                 {/* <GetTotal products={items} /> */}
+              </div>
+            )}
+
+            {dropin && (
+              <div>
+                <form className="form" id="form" encType="multipart/form-data">
+                  <fieldset>
+                    <input
+                      defaultValue={address}
+                      type="text"
+                      placeholder="Enter your Delivery Address"
+                      onChange={(e) => setAddress(e.target.value)}
+                    />
+                    <input
+                      defaultValue={pincode}
+                      type="text"
+                      placeholder="Enter your pincode"
+                      onChange={(e) => setPincode(e.target.value)}
+                    />
+                    <input value={getAmount()} type="text" readOnly />
+                  </fieldset>
+                </form>
                 <button
                   onClick={() => onPurchase()}
                   className="btn btn-success"

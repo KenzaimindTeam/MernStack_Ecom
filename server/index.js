@@ -96,7 +96,7 @@ app.use("/auth", require("./routers/adminRouter"));
 app.use("/product", require("./routers/productRouter"));
 app.use("/category", require("./routers/categoryRouter"));
 app.use("/authUser", require("./routers/userRouter"));
-app.use("/authOrder", require("./routers/orderRouter"));
+// app.use("/authOrder", require("./routers/orderRouter"));
 app.use("/cart", require("./routers/cartRouter"));
 app.use("/braintree", require("./routers/braintree"));
 

@@ -15,17 +15,18 @@ const app = express();
 
 const { Console } = require("console");
 //sendTextMessage
-const client = require("twilio")("", "");
-
+const client = require("twilio")(
+  "AC41ba7604c276a33050ccb6310f583a43",
+  "process.env.TWILIO_API_KEY"
+);
 const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
-      api_key: "",
+      api_key: "process.env.SENDGRID_API_KEY",
     },
   })
 );
 `-`;
-
 router.post("/", async (req, res) => {
   console.log("merchant router");
 });

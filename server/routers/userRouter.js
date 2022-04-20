@@ -6,24 +6,24 @@ const multer = require("multer");
 const crypto = require("crypto");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
 var nodemailer = require("nodemailer");
-
 const authUser = require("../middleware/authUser.js");
 const express = require("express");
 const path = require("path");
 const { Console } = require("console");
+const { Client } = require("twilio/lib/twiml/VoiceResponse");
+require("dotenv").config();
+const app = express();
 
-const client = require("twilio")("", "");
+const client = require("twilio")("", "process.env.TWILIO_API_KEY");
 
 const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
-      api_key: "",
+      api_key: "process.env.SENDGRID_API_KEY",
     },
   })
 );
 `-`;
-
-const app = express();
 
 router.get("/userProfile", authUser, async (req, res) => {
   try {
@@ -131,6 +131,8 @@ router.post("/sendd-email", async (req, res) => {
             .catch((error) => console.log(error));
         }
         sendTextMessage(token);
+        //S@ngeethamnair245//https://console.twilio.com/?frameUrl=%2Fconsole%3Fx-target-region%3Dus1&newCustomer=true
+        //sms sending end
 
         user.save().then((result) => {
           transporter.sendMail({
@@ -145,10 +147,10 @@ router.post("/sendd-email", async (req, res) => {
           // alert("check your email");
           res.json({ message: "check yor email" });
           console.log("check your email");
-         
+          //    res.status(400).json({
+          //    errorMessage: "check ur email.",
+          //  });
         });
-
-        
       });
     });
   } catch (err) {
@@ -159,16 +161,20 @@ router.post("/sendd-email", async (req, res) => {
 
 router.post("/change-password/:id", authUser, async (req, res) => {
   const oldPassword = req.body.oldpassword;
+
+  // User.findOne({password:req.user.oldpassword})
+
   const newPassword = req.body.newpassword;
   const passwordVerify = req.body.passwordVerify;
   const userId = req.user;
-  
+  //  const sentToken = req.user.id;
+  //  const sentToken = req.cookies.token;
 
   const existingUser = await User.findById({ _id: req.user });
 
   const correctPassword = await bcrypt.compare(
     oldPassword,
-    existingUser.passwordHash
+    existingUser.passwordHash66666666666666666666666666666
   );
 
   if (!correctPassword)
@@ -177,7 +183,8 @@ router.post("/change-password/:id", authUser, async (req, res) => {
     });
 
   console.log("--------------new password" + newPassword);
- 
+  // console.log("token"+sentToken);
+  //const sentToken = req.cookies.token;
   if (newPassword !== passwordVerify)
     return res.status(400).json({ errorMessage: "password do not match" });
 
@@ -216,7 +223,12 @@ router.put("/userUpdate", authUser, async (req, res) => {
       "inside uset update router..................................................."
     );
     const { firstname, lastname, phone, email } = req.body;
-    
+    //nullvalidation
+    // validfirstName = req.body.firstName||firstName;
+    // validlastName = req.body.lastName||lastName;
+    // validphone =req.body.phone||phone;
+    // validemail =req.body.email||email;
+
     console.log("firstname--------" + firstname);
 
     const userId = req.user;
@@ -272,7 +284,12 @@ router.put("/userUpdate", authUser, async (req, res) => {
       return res.status(400).json({
         errorMessage: "please enter correct Phone number",
       });
- \
+    //profileImg = image;
+    // if (!originalUser.firstName || !originalUser.lastName || !originalUser.phone || !originalUser.email) {
+    //   return res.status(400).json({
+    //     errorMessage: "please enter all required field",
+    //   });
+    // }
     const saveUser = await originalUser.save();
     // res.json(saveUser);
     console.log("saved User  is " + saveUser);
@@ -378,17 +395,6 @@ router.post("/userRegister", async (req, res, next) => {
         errorMessage: "please enter password atleast 6 characters",
       });
 
-    // if (email.match([a-z0-9]+@[a-z]+\.[a-z]{2,3})
-    //    return res.status(400).json({
-    //      errorMessage: "please enter correct email id",
-    //  });
-
-    // if (password !== passwordVerify)
-    //   return res.status(400).json({
-    //     errorMessage:
-    //       "please enter the correct password twice for verification",
-    //   });
-
     const existingUser = await User.findOne({ email });
     console.log(existingUser);
     if (existingUser)
@@ -411,8 +417,6 @@ router.post("/userRegister", async (req, res, next) => {
 
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
-
-   
 
     const newUser = new User({
       firstname,

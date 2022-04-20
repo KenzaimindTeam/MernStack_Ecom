@@ -8,7 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import ReactDOM from "react-dom";
 import ErrorMessage from "../misc/ErrorMessage";
 import { Link, useNavigate } from "react-router-dom";
-import CartBootModal from "../home/CartBootModal";
+// import CartBootModal from "../home/CartBootModal";
 // import { post } from "jquery";
 
 // import SearchProducts from "./SearchProducts";
