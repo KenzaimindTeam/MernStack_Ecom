@@ -12,7 +12,7 @@ server/.env
 /server/node_modules
 <<<<<<< HEAD
 
-
+server/.env
 # testing
 /coverage
 ../../node_modules

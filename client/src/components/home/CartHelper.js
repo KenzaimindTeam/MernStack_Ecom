@@ -118,18 +118,36 @@ export const emptyCart = (next) => {
 //     .catch((err) => console.log(err));
 // };
 
-// export const createOrder = (userId, token, createOrderData) => {
-//   return fetch(`/order/create/${userId}`, {
-//     method: "POST",
-//     headers: {
-//       Accept: "application/json",
-//       "Content-Type": "application/json",
-//       Authorization: `Bearer ${token}`,
-//     },
-//     body: JSON.stringify({ order: createOrderData }),
-//   })
-//     .then((response) => {
-//       return response.json();
-//     })
-//     .catch((err) => console.log(err));
-// };
+export const isAuthenticated = () => {
+  if (typeof window == "undefined") {
+    return false;
+  }
+  if (localStorage.getItem("jwt")) {
+    return JSON.parse(localStorage.getItem("jwt"));
+  } else {
+    return false;
+  }
+};
+
+export const createOrder = (user, registerData) => {
+  return fetch(
+    `http://localhost:5000/order/createOrder/${user}`,
+    // { credentials: "same-origin" },
+    {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        // Authorization: `Bearer `,
+        credentials: "same-origin",
+      },
+      body: JSON.stringify({ order: registerData }),
+    }
+  )
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};
+
+
