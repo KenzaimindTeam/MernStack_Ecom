@@ -8,7 +8,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import ReactDOM from "react-dom";
 import ErrorMessage from "../misc/ErrorMessage";
 import { Link, useNavigate } from "react-router-dom";
+<<<<<<< HEAD
+//import CartBootModal from "../home/CartBootModal";
+=======
 // import CartBootModal from "../home/CartBootModal";
+>>>>>>> 796a50e5461b2bc2fd0a6e2caf85de4f2146ce91
 // import { post } from "jquery";
 
 // import SearchProducts from "./SearchProducts";

@@ -33,6 +33,8 @@ import UserForgotPassword from "./components/auth/UserForgotPassword";
 // import UProductshop from "./components/home/UProductShop";
 import UserCart from "./components/home/UserCart";
 import PaymentDropIn from "./components/home/PaymentDropIn";
+import AutoComplete from "./components/home/AutoComplete";
+import UserHome from "./components/home/UserHome"
 
 function Router() {
   return (
@@ -42,6 +44,8 @@ function Router() {
         <Routes>
           <Route exact path="/userProfile" element={<UserProfile />} />
           <Route exact path="/updateUser" element={<UpdateUser />} />
+          <Route exact path= "/autocomplete" element={<AutoComplete/>}/>
+          <Route exact path= "/userHome" element={<UserHome/>}/>
           <Route
             exact
             path="/userChangePassword"

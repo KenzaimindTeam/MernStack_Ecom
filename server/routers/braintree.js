@@ -42,6 +42,7 @@ exports.generateToken = (req, res) => {
 //https://www.youtube.com/watch?v=6gZjjTYMH-4&ab_channel=LoyalCoder
 
 router.get("/generate/token", generateToken);
+router.get("/process/payment", async (req, res) => { console.log("get process payment")});
 
 router.post("/process/payment", async (req, res) => {
   const nonceFromTheClient = req.body.payment_method_nonce;
@@ -51,12 +52,18 @@ router.post("/process/payment", async (req, res) => {
     .sale({
       amount: amount,
       paymentMethodNonce: nonceFromTheClient,
+        // address: address,
+        // products: products,
+
       // deviceData: deviceDataFromTheClient,
       options: {
         submitForSettlement: true,
       },
     })
-    .then((response) => res.status(200).send(response))
+    .then((response) => {
+      console.log(response);
+      res.status(200).send(response)
+})
     .catch((err) => res.status(500).send(err));
 });
 

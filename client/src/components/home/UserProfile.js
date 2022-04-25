@@ -274,7 +274,7 @@ function UserProfile() {
                     type="text"
                     readOnly={true}
                   />
-
+                  <button>
                   <Link
                     className="btn-edit"
                     type="button"
@@ -282,7 +282,7 @@ function UserProfile() {
                     // onClick={() => }
                   >
                     Update
-                  </Link>
+                  </Link></button>
                   <br />
                   <Link to="/userChangePassword">Change password</Link>
 

@@ -6,7 +6,6 @@ const User = require("../models/userModel");
 const { Order, CartItem } = require("../models/orderModel");
 
 const authUser = require("../middleware/authUser.js");
-// const Order = require("../models/OrderModel");
 const multer = require("multer");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -20,19 +19,25 @@ const { Console } = require("console");
 const authMerchant = require("../middleware/authMerchant.js");
 
 router.get("/createOrder/:id", async (req, res) => {
-  console.log("Order router");
+  console.log("get");
 });
 
-router.post("/createOrder/:id", authMerchant, authUser, async (req, res) => {
+router.post("/createOrder/:id", authUser, async (req, res) => {
   try {
     console.log("######In create order backend#####");
+    const token = req.cookies.token;
+    console.log("token" + token);
 
-       const profile = req.user;
+    const user = req.user;
     // req.body.order.user = req.profile;
     //    req.user=req.profile
-    console.log("000000000000"+profile);
-    const order = new Order(req.body.order);
-    order.save((error, data) => {
+    // console.log("000000000000" + profile);
+    const { amount, products, address } = req.body;
+    console.log(amount + products + address);
+    const order = new Order({amount, products, address, user});
+// quantity=
+    console.log("ORDerrrrrrrr" + order);
+    order.save((error, values) => {
       if (error) {
         console.log(error);
 
@@ -41,7 +46,7 @@ router.post("/createOrder/:id", authMerchant, authUser, async (req, res) => {
         });
       }
     });
-      console.log(order);
+    console.log(order);
 
     // const {
     //   address,pincode,amount

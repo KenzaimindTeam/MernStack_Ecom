@@ -15,7 +15,6 @@ require("dotenv").config();
 const app = express();
 
 const client = require("twilio")("", "process.env.TWILIO_API_KEY");
-
 const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
@@ -131,8 +130,7 @@ router.post("/sendd-email", async (req, res) => {
             .catch((error) => console.log(error));
         }
         sendTextMessage(token);
-        //S@ngeethamnair245//https://console.twilio.com/?frameUrl=%2Fconsole%3Fx-target-region%3Dus1&newCustomer=true
-        //sms sending end
+        
 
         user.save().then((result) => {
           transporter.sendMail({
@@ -284,6 +282,7 @@ router.put("/userUpdate", authUser, async (req, res) => {
       return res.status(400).json({
         errorMessage: "please enter correct Phone number",
       });
+
     //profileImg = image;
     // if (!originalUser.firstName || !originalUser.lastName || !originalUser.phone || !originalUser.email) {
     //   return res.status(400).json({

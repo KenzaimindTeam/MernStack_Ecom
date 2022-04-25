@@ -6,11 +6,14 @@ import {
   itemTotal,
   addItem,
   removeItem,
+  emptyCart,
+  createOrder,
+  isAuthenticated,
 } from "./CartHelper";
 import GetTotal, { getTotal } from "./GetTotal";
 import { makePayment, getClientToken } from "../auth/Payment";
 import DropIn from "braintree-web-drop-in-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link,useParams, useNavigate } from "react-router-dom";
 
 import UserContext from "../../context/UserContext";
 // import { getClientToken } from "../auth/Payment";
@@ -20,21 +23,40 @@ export default function PaymentDropIn(props) {
   const { getTotal } = props;
   const [run, setRun] = useState(false);
   const [address, setAddress] = useState([]);
-  const [pincode, setPincode] = useState([]);
+  // const [pincode, setPincode] = useState([]);
   const [dropin, setDropin] = useState(true);
-  const [user, setUser] = useState(0);
+  const [user, setUser] = useState(undefined);
 
   async function getUser() {
     const userRes = await Axios.get("http://localhost:5000/authUser/loggedIn");
     setUser(userRes.data);
-    console.log("user" + user);
+    console.log("user>>>>>>>>>>>>>." + user);
   }
+  useEffect(() => {
+        getUser();
+
+  })
+
   useEffect(() => {
     // const productRes = getCart();
     setItems(getCart());
-    getUser();
     // setItems(productRes.data);
   }, [run]);
+
+  const getAmount = () => {
+    // let amount = 0;
+    // items.map((data, i) => {
+    //   amount = amount + data.totalamount;
+
+    // });
+    //        console.log("amount", amount);
+
+    // return amount;
+    return items.reduce((currentValue, nextValue) => {
+      return currentValue + nextValue.count * nextValue.totalamount;
+    }, 0);
+    // getTotal();
+  };
 
   let navigate = useNavigate();
   const { cartItems, product, onAdd, onRemove } = props;
@@ -54,12 +76,16 @@ export default function PaymentDropIn(props) {
     success: "",
     error: "",
     instance: "",
+    // address: "",
+    //  products: getCart(),
+    // amount:getAmount()
+    // pincode: pincode,
   });
   const { clientToken, success, error, instance } = values;
 
   const getToken = () => {
     getClientToken().then((response) => {
-      console.log(response);
+      console.log("getcliennttoken........" + response);
       if (response.err) {
         setValues({ ...values, error: response.err });
       } else {
@@ -67,22 +93,35 @@ export default function PaymentDropIn(props) {
       }
     });
   };
+
   useEffect(() => {
-    // getToken(userId, token);
-    getToken();
-    // getAmount()
+    //  getToken(user, token);
+     getToken();
+    getUser()
   }, []);
 
-  // const userId = getUser._id;
+  // const { token } = useParams();
+  
+    //  const token = isAuthenticated() && isAuthenticated().token;
 
-  // const token = getUser.token;
+  const userId = getUser._id;
+
+  const token = getUser.token;
+
+    // const token = values.clientToken;
+
 
   const onPurchase = () => {
     instance.requestPaymentMethod().then((data) => {
       let nonce = data.nonce;
+
       let paymentData = {
+        // products: items,
         payment_method_nonce: nonce,
         amount: getAmount(),
+        address: deliveryAddress,
+
+        // /pincode:pincodee,
         // amount: getTotal(items),
       };
       //  console.log("amount", getTotal);
@@ -94,9 +133,18 @@ export default function PaymentDropIn(props) {
             setValues({ ...values, error: response.err });
           } else {
             setValues({ ...values, error: "", success: response.success });
-            saveOrder(paymentData.amount);
+            console.log(values);
+            saveOrder();
             setDropin(false);
-            alert("Payment successfull");
+            // alert("Payment successfull");
+            emptyCart(() => {
+              setRun(!run); // run useEffect in parent Cart
+              console.log("payment success and empty cart");
+              setValues({
+                loading: false,
+                success: true,
+              });
+            });
           }
         })
         .catch((err) => {
@@ -104,21 +152,34 @@ export default function PaymentDropIn(props) {
         });
     });
   };
-  async function saveOrder(amount) {
+  async function saveOrder(paymentData,token) {
     // e.preventDefault();
+
     const registerData = {
-      address: address,
-      amount: amount,
-      pincode: pincode,
-      cart: getCart(),
+      address: deliveryAddress,
+      amount: getAmount(),
+      products: items,
+      // pincode: pincode,
+      // cart: getCart(),
     };
     try {
-      console.log("user id============" + user);
-
-      await Axios.post(
-        `http://localhost:5000/order/createOrder/${user}`,
-        registerData
+      console.log(
+        "user id=============================================================" +
+          user
       );
+      await Axios.post(`http://localhost:5000/order/createOrder/${user}`,registerData);
+
+
+      // createOrder(user, registerData)
+      //   .then((response) =>console.log("createorder")
+          // console.log(registerData + " " + "TOKENNNN........................................................." + token)
+        // )
+        // .catch((err) => console.log(err));
+
+      // await Axios.post(
+      //   `http://localhost:5000/order/createOrder/${user}`,
+      //   registerData
+      // );
     } catch (err) {
       if (err.response) {
         if (err.response.data.errorMessage) {
@@ -129,24 +190,10 @@ export default function PaymentDropIn(props) {
       return;
     }
   }
-  const getAmount = () => {
-    // let amount = 0;
-    // items.map((data, i) => {
-    //   amount = amount + data.totalamount;
 
-    // });
-    //        console.log("amount", amount);
-
-    // return amount;
-    return items.reduce((currentValue, nextValue) => {
-      return currentValue + nextValue.count * nextValue.totalamount;
-    }, 0);
-    // getTotal();
+  const handleAddress = (event) => {
+    setValues({ ...values, address: event.target.value });
   };
-
-  //  const handleAddress = (event) => {
-  //    setData({ ...data, address: event.target.value });
-  // };
 
   //  const getToken = (userId, token) => {
   //    getClientToken(userId, token).then((data) => {
@@ -159,7 +206,8 @@ export default function PaymentDropIn(props) {
   //      }
   //    });
   //  };
-  //  let deliveryAddress = data.address;
+  let deliveryAddress = values.address;
+  // let pincodee=values.pincode
 
   async function logout() {
     await Axios.get("http://localhost:5000/auth/logOut");
@@ -226,46 +274,6 @@ export default function PaymentDropIn(props) {
                       </a>
                     </li>
 
-                    {/* <span className="sr-only">(current)</span> */}
-                    {/* </a> */}
-                    {/* <li className="nav-item dropdown">
-                      <a
-                        className="nav-link dropdown-toggle"
-                        href="#"
-                        data-toggle="dropdown"
-                        role="button"
-                        aria-haspopup="true"
-                        aria-expanded="true"
-                      >
-                        <li>
-                          <a href="testimonial.html">CONTACT</a>
-                        </li>
-                        <span className="nav-label">
-                          SHOP <span className="caret" />
-                        </span> */}
-                    {/* </a> */}
-
-                    {/* <ul className="dropdown-menu">
-                        <li>
-                          <a href="testimonial.html">CONTACT</a>
-                        </li>
-                      </ul> */}
-                    {/* </li> */}
-                    {/* <li className="nav-item">
-                      <a className="nav-link" href="product.html">
-                        Products
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a className="nav-link" href="blog_list.html">
-                        Blog
-                      </a>
-                    </li>
-                    <li className="nav-item active">
-                      <a className="nav-link" href="contact.html">
-                        Contact
-                      </a>
-                    </li> */}
                     <li className="nav-item">
                       <a className="nav-link" href="#">
                         <sup>{itemTotal()}</sup>
@@ -420,17 +428,17 @@ export default function PaymentDropIn(props) {
                 <form className="form" id="form" encType="multipart/form-data">
                   <fieldset>
                     <input
-                      defaultValue={address}
+                      defaultValue={values.address}
                       type="text"
                       placeholder="Enter your Delivery Address"
-                      onChange={(e) => setAddress(e.target.value)}
+                      onChange={handleAddress}
                     />
-                    <input
+                    {/* <input
                       defaultValue={pincode}
                       type="text"
                       placeholder="Enter your pincode"
                       onChange={(e) => setPincode(e.target.value)}
-                    />
+                    /> */}
                     <input value={getAmount()} type="text" readOnly />
                   </fieldset>
                 </form>
