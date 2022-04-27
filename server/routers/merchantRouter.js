@@ -15,28 +15,21 @@ const app = express();
 
 const { Console } = require("console");
 //sendTextMessage
-<<<<<<< HEAD
-/*const client = require("twilio")("", "");
-
-=======
 const client = require("twilio")(
   "AC41ba7604c276a33050ccb6310f583a43",
-  "process.env.TWILIO_API_KEY"
+  "0dfa35ffacd6334fa7bc669c193dae7c"
 );
->>>>>>> 796a50e5461b2bc2fd0a6e2caf85de4f2146ce91
+
 const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
-      api_key: "process.env.SENDGRID_API_KEY",
+      api_key:
+        "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",
     },
   })
 );
-<<<<<<< HEAD
-`-`; */
-
-=======
 `-`;
->>>>>>> 796a50e5461b2bc2fd0a6e2caf85de4f2146ce91
+
 router.post("/", async (req, res) => {
   console.log("merchant router");
 });
@@ -57,7 +50,9 @@ router.get("/merchantProfile", authMerchant, async (req, res) => {
     console.log("id.............." + req.merchant);
 
     console.log(merchants); //here all merchants...
+    // console.log("newwwwwwwwwwwwwwww");
     res.json(merchants);
+    // console.log(merchants);
   } catch (err) {
     res.status(500).send();
     console.log(err);
@@ -66,9 +61,12 @@ router.get("/merchantProfile", authMerchant, async (req, res) => {
 
 router.post("/change-password/:id", authMerchant, async (req, res) => {
   const oldPassword = req.body.oldpassword;
+  // Merchant.findOne({password:req.merchant.oldpassword})
   const newPassword = req.body.newpassword;
   const passwordVerify = req.body.passwordVerify;
   const merchantId = req.merchant;
+  //  const sentToken = req.merchant.id;
+  //  const sentToken = req.cookies.token;
 
   const existingMerchant = await Merchant.findById({ _id: req.merchant });
 
@@ -83,6 +81,8 @@ router.post("/change-password/:id", authMerchant, async (req, res) => {
     });
 
   console.log("--------------new password" + newPassword);
+  // console.log("token"+sentToken);
+  //const sentToken = req.cookies.token;
   if (newPassword !== passwordVerify)
     return res.status(400).json({ errorMessage: "password do not match" });
 
@@ -154,6 +154,10 @@ router.post("/merchantRegister", async (req, res) => {
       });
     }
 
+    //regex
+
+    // var emailRegex =/^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
+
     var emailRegex =
       /^(?=[^@]*[A-Za-z])([a-zA-Z0-9])(([a-zA-Z0-9])*([\._-])?([a-zA-Z0-9]))*@(([a-zA-Z0-9\-])+(\.))+([a-zA-Z]{2,4})+$/i;
     var valid = emailRegex.test(email);
@@ -203,6 +207,17 @@ router.post("/merchantRegister", async (req, res) => {
         errorMessage: "please enter password atleast 6 characters",
       });
 
+    // if (email.match([a-z0-9]+@[a-z]+\.[a-z]{2,3})
+    //    return res.status(400).json({
+    //      errorMessage: "please enter correct email id",
+    //  });
+
+    // if (password !== passwordVerify)
+    //   return res.status(400).json({
+    //     errorMessage:
+    //       "please enter the correct password twice for verification",
+    //   });
+
     const existingMerchant = await Merchant.findOne({ email });
     console.log(existingMerchant);
     if (existingMerchant)
@@ -226,6 +241,22 @@ router.post("/merchantRegister", async (req, res) => {
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
 
+    //console.log(passwordHash);
+
+    //save the - in the mongoDb
+
+    //ma'am fakepath removed
+
+    // var imagePath = "";
+    // console.log(profileImg);
+    // console.log(firstname);
+    // const image = profileImg.split("fakepath\\");
+    // console.log(image[1]);
+    // imagePath = image[1];
+    // console.log(imagePath);
+
+    //image(request.body.image);
+
     const newMerchant = new Merchant({
       shopid,
       shopname,
@@ -241,6 +272,8 @@ router.post("/merchantRegister", async (req, res) => {
       zipcode,
       merchant: req.token,
     });
+
+    //document.body.appendChild(image[1]);
 
     const savedMerchant = await newMerchant.save();
 
@@ -266,7 +299,9 @@ router.post("/merchantLogin", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    
+    //display image
+    // const PImage = await merchant.findById(email);
+    //  PImage.profileImg = profileImg;
 
     // validation
 
@@ -327,6 +362,11 @@ router.put("/merchantUpdate", authMerchant, async (req, res) => {
       state,
       zipcode,
     } = req.body;
+    //nullvalidation
+    // validfirstName = req.body.firstName||firstName;
+    // validlastName = req.body.lastName||lastName;
+    // validphone =req.body.phone||phone;
+    // validemail =req.body.email||email;
 
     console.log("firstname--------" + firstname);
 
@@ -335,9 +375,20 @@ router.put("/merchantUpdate", authMerchant, async (req, res) => {
     const originalMerchant = await Merchant.findById({ _id: req.merchant });
 
     console.log("------------merchantid is -----------" + merchantId);
+    // const originalMerchant = await Merchant.findById(merchantId);
 
     console.log("original merchant........." + originalMerchant);
+    // var imagePath = "";
 
+    // const image = profileImg.split("fakepath\\");
+    // console.log("imagepathhhhhhhhhh");
+
+    //originalMerchant.firstName = originalMerchant.firstName || req.body.firstName;
+    // console.log("ist name------------------------" + firstName);
+
+    // originalMerchant.lastName =  req.body.lastName;
+    // originalMerchant.email =  req.body.email;
+    // originalMerchant.phone =  req.body.phone;
     originalMerchant.shopid = shopid || originalMerchant.shopid;
     originalMerchant.shopname = shopname || originalMerchant.shopname;
 
@@ -395,7 +446,12 @@ router.put("/merchantUpdate", authMerchant, async (req, res) => {
       return res.status(400).json({
         errorMessage: "please enter correct Phone number",
       });
-
+    //profileImg = image;
+    // if (!originalMerchant.firstName || !originalMerchant.lastName || !originalMerchant.phone || !originalMerchant.email) {
+    //   return res.status(400).json({
+    //     errorMessage: "please enter all required field",
+    //   });
+    // }
     const saveMerchant = await originalMerchant.save();
     // res.json(saveMerchant);
     console.log("saved Merchant  is " + saveMerchant);
@@ -425,12 +481,14 @@ router.post("/send-email", async (req, res) => {
   try {
     const { email } = req.body;
     console.log(email);
+    // const existingUser = await User.findOne({ email });
 
     crypto.randomBytes(32, (err, buffer) => {
       if (err) {
         console.log(err);
       }
       const token = buffer.toString("hex");
+      // console.log(token);
 
       Merchant.findOne({ email: req.body.email }).then((merchant) => {
         if (!merchant)
@@ -441,14 +499,17 @@ router.post("/send-email", async (req, res) => {
         console.log("reset token-----   " + token);
         console.log(`http://localhost:3000/reset/${token}`);
 
+        // $_SERVER["HTTPS"] = false;
+        //sms sending
+
         merchant.expireToken = Date.now() + 3600000; //valid for one hour
         //sms sending
         function sendTextMessage() {
           client.messages
             .create({
               body: `welcome to snippet manager your link for reset password is http://localhost:3000/reset/${token}`,
-              to: "+", //trial purposes only to verified numbers
-              from: "+", //no
+              to: "+971558051307", //trial purposes only to verified numbers
+              from: "+19125138135", //my phone no
             })
             .then((message) =>
               console.log(
@@ -459,7 +520,8 @@ router.post("/send-email", async (req, res) => {
             .catch((error) => console.log(error));
         }
         sendTextMessage(token);
-       
+        //S@ngeethamnair245//https://console.twilio.com/?frameUrl=%2Fconsole%3Fx-target-region%3Dus1&newCustomer=true
+        //sms sending end
 
         merchant.save().then((result) => {
           transporter.sendMail({
@@ -479,7 +541,25 @@ router.post("/send-email", async (req, res) => {
           //  });
         });
 
-       
+        //send sms
+
+        // messagebird.messages.create(
+        //    {
+        //      originator: "+97155801307",
+        //      recipients: [user.phone],
+        //      body: `http://localhost:3000/reset/${token}`, //body
+        //    },
+        //    function (err, response) {
+        //      if (err) {
+        //        // Request has failed
+        //        console.log(err);
+        //        res.send("Error occured while sending message!");
+        //      } else {
+        //        // Request was successful
+        //        console.log(response);
+        //      }
+        //    }
+        //  );
       });
     });
   } catch (err) {

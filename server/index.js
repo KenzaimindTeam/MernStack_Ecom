@@ -67,7 +67,7 @@ app.use(
   })
 );
 
-/*const braintree = require("braintree");
+const braintree = require("braintree");
 
 const gateway = new braintree.BraintreeGateway({
   environment: braintree.Environment.Sandbox,
@@ -83,12 +83,12 @@ exports.generateToken = (req, res) => {
       console.log("responseeeeeeeee" + response);
     })
     .catch((err) => res.status(500).send(err));
-};*/
+};
 
 app.use(cookieParser());
 
-const PORT =  5000;
-//app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
 
 //setup routers
 app.use("/authMerchant", require("./routers/merchantRouter"));
@@ -96,13 +96,9 @@ app.use("/auth", require("./routers/adminRouter"));
 app.use("/product", require("./routers/productRouter"));
 app.use("/category", require("./routers/categoryRouter"));
 app.use("/authUser", require("./routers/userRouter"));
-<<<<<<< HEAD
-//app.use("/authOrder", require("./routers/orderRouter"));
-=======
-// app.use("/authOrder", require("./routers/orderRouter"));
->>>>>>> 796a50e5461b2bc2fd0a6e2caf85de4f2146ce91
+app.use("/order", require("./routers/orderRouter"));
 app.use("/cart", require("./routers/cartRouter"));
-//app.use("/braintree", require("./routers/braintree"));
+app.use("/braintree", require("./routers/braintree"));
 
 // var connect = require("connect");
 // var serveStatic = require("serve-static");
@@ -135,22 +131,11 @@ app.get("/uploads/:id", upload.single("Pimage"), async (req, res) => {
 
 //connect to mongoDb
 
-/*mongoose.connect(
+mongoose.connect(
   process.env.MDB_CONNECT_STRING,
   { useNewUrlParser: true, useUnifiedTopology: true },
   (err) => {
     if (err) return console.error(err);
     console.log("connected to MongoDB");
   }
-);*/
-
-const URL = 'mongodb+srv://Name:Paword@cluster0.dwo9n.mongodb.net/ENGINEERWORKS?retryWrites=true&w=majority';
-
-mongoose.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
-    app.listen(PORT, () => {
-        console.log(`Server is running successfully on port ${PORT}`);
-    });
-
-}).catch(error => {
-    console.log('Error: ', error.message);
-})
+);

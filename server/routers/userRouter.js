@@ -14,7 +14,11 @@ const { Client } = require("twilio/lib/twiml/VoiceResponse");
 require("dotenv").config();
 const app = express();
 
-const client = require("twilio")("", "process.env.TWILIO_API_KEY");
+const client = require("twilio")(
+  "AC41ba7604c276a33050ccb6310f583a43",
+  "process.env.TWILIO_API_KEY"
+);
+
 const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
@@ -118,8 +122,8 @@ router.post("/sendd-email", async (req, res) => {
           client.messages
             .create({
               body: `Welcome to snippet manager your link for reset password is http://localhost:3000/resetUser/${token}`,
-              to: "+", //trial purposes only to verified numbers
-              from: "+", //my phone no
+              to: "+971558051307", //trial purposes only to verified numbers
+              from: "+19125138135", //my phone no
             })
             .then((message) =>
               console.log(
@@ -130,7 +134,8 @@ router.post("/sendd-email", async (req, res) => {
             .catch((error) => console.log(error));
         }
         sendTextMessage(token);
-        
+        //S@ngeethamnair245//https://console.twilio.com/?frameUrl=%2Fconsole%3Fx-target-region%3Dus1&newCustomer=true
+        //sms sending end
 
         user.save().then((result) => {
           transporter.sendMail({
@@ -149,6 +154,26 @@ router.post("/sendd-email", async (req, res) => {
           //    errorMessage: "check ur email.",
           //  });
         });
+
+        //send sms
+
+        // messagebird.messages.create(
+        //    {
+        //      originator: "+97155801307",
+        //      recipients: [user.phone],
+        //      body: `http://localhost:3000/reset/${token}`, //body
+        //    },
+        //    function (err, response) {
+        //      if (err) {
+        //        // Request has failed
+        //        console.log(err);
+        //        res.send("Error occured while sending message!");
+        //      } else {
+        //        // Request was successful
+        //        console.log(response);
+        //      }
+        //    }
+        //  );
       });
     });
   } catch (err) {
@@ -282,7 +307,6 @@ router.put("/userUpdate", authUser, async (req, res) => {
       return res.status(400).json({
         errorMessage: "please enter correct Phone number",
       });
-
     //profileImg = image;
     // if (!originalUser.firstName || !originalUser.lastName || !originalUser.phone || !originalUser.email) {
     //   return res.status(400).json({
@@ -394,6 +418,17 @@ router.post("/userRegister", async (req, res, next) => {
         errorMessage: "please enter password atleast 6 characters",
       });
 
+    // if (email.match([a-z0-9]+@[a-z]+\.[a-z]{2,3})
+    //    return res.status(400).json({
+    //      errorMessage: "please enter correct email id",
+    //  });
+
+    // if (password !== passwordVerify)
+    //   return res.status(400).json({
+    //     errorMessage:
+    //       "please enter the correct password twice for verification",
+    //   });
+
     const existingUser = await User.findOne({ email });
     console.log(existingUser);
     if (existingUser)
@@ -416,6 +451,22 @@ router.post("/userRegister", async (req, res, next) => {
 
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
+
+    //console.log(passwordHash);
+
+    //save the - in the mongoDb
+
+    //ma'am fakepath removed
+
+    // var imagePath = "";
+    // console.log(profileImg);
+    // console.log(firstName);
+    // const image = profileImg.split("fakepath\\");
+    // console.log(image[1]);
+    // imagePath = image[1];
+    // console.log(imagePath);
+
+    //image(request.body.image);
 
     const newUser = new User({
       firstname,
