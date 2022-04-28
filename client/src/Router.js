@@ -34,7 +34,9 @@ import UserForgotPassword from "./components/auth/UserForgotPassword";
 import UserCart from "./components/home/UserCart";
 import PaymentDropIn from "./components/home/PaymentDropIn";
 import AutoComplete from "./components/home/AutoComplete";
-import UserHome from "./components/home/UserHome"
+import UserHome from "./components/home/UserHome";
+import MerchantOrderProList from "./components/home/MerchantOrderProList";
+import UserOrders from "./components/home/UserOrders";
 
 function Router() {
   return (
@@ -42,10 +44,12 @@ function Router() {
       <BrowserRouter>
         {/* <Navbar />   */}
         <Routes>
+          <Route exact path="/allorders" element={<MerchantOrderProList />} />
+          <Route exact path="/userOrders" element={<UserOrders />} />
           <Route exact path="/userProfile" element={<UserProfile />} />
           <Route exact path="/updateUser" element={<UpdateUser />} />
-          <Route exact path= "/autocomplete" element={<AutoComplete/>}/>
-          <Route exact path= "/userHome" element={<UserHome/>}/>
+          <Route exact path="/autocomplete" element={<AutoComplete />} />
+          <Route exact path="/userHome" element={<UserHome />} />
           <Route
             exact
             path="/userChangePassword"

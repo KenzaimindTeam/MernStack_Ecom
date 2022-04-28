@@ -1,9 +1,41 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import MerchantContext from "../../context/MerchantContext";
+import ErrorMessage from "../misc/ErrorMessage";
 
-function MerchantDashboard() {
+export default function MerchantOrderProList() {
+  const [orders, setOrders] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [merchant, setMerchant] = useState([]);
+  const [pageNumber, setPageNumber] = useState(0);
+  const [numberOfPages, setNumberOfPages] = useState(0);
+  const pages = new Array(numberOfPages).fill(null).map((v, i) => i);
   let navigate = useNavigate();
+
+  useEffect(
+    (id) => {
+      fetch(`http://localhost:5000/order/allorders?page=${pageNumber}`)
+        .then((response) => response.json())
+        .then(({ totalPages, orders }) => {
+          setOrders(orders);
+          setNumberOfPages(totalPages);
+          getMerchant();
+        });
+
+      //   console.log("merchantprofile merchant   " + merchant.firstname);
+      //   console.log(products.catgname);
+    },
+    [pageNumber]
+  );
+
+  async function getMerchant() {
+    const merchantRes = await Axios.get(
+      "http://localhost:5000/authMerchant/merchantProfile"
+    );
+
+    setMerchant(merchantRes.data);
+  }
 
   async function logout() {
     await Axios.get("http://localhost:5000/auth/logOut");
@@ -19,7 +51,7 @@ function MerchantDashboard() {
             <header className="header_section">
               <div className="container">
                 <nav className="navbar navbar-expand-lg custom_nav-container ">
-                  <a className="navbar-brand" href="index.html">
+                  <a className="navbar-brand" href="">
                     <img width={250} src="../../images/logo.png" alt="" />
                   </a>
                   <button
@@ -62,46 +94,6 @@ function MerchantDashboard() {
                         </a>
                       </li>
 
-                      {/* <span className="sr-only">(current)</span> */}
-                      {/* </a> */}
-                      {/* <li className="nav-item dropdown">
-                      <a
-                        className="nav-link dropdown-toggle"
-                        href="#"
-                        data-toggle="dropdown"
-                        role="button"
-                        aria-haspopup="true"
-                        aria-expanded="true"
-                      >
-                        <li>
-                          <a href="testimonial.html">CONTACT</a>
-                        </li>
-                        <span className="nav-label">
-                          SHOP <span className="caret" />
-                        </span> */}
-                      {/* </a> */}
-
-                      {/* <ul className="dropdown-menu">
-                        <li>
-                          <a href="testimonial.html">CONTACT</a>
-                        </li>
-                      </ul> */}
-                      {/* </li> */}
-                      {/* <li className="nav-item">
-                      <a className="nav-link" href="product.html">
-                        Products
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a className="nav-link" href="blog_list.html">
-                        Blog
-                      </a>
-                    </li>
-                    <li className="nav-item active">
-                      <a className="nav-link" href="contact.html">
-                        Contact
-                      </a>
-                    </li> */}
                       <form className="form-inline">
                         <button
                           className="btn  my-2 my-sm-0 nav_search-btn"
@@ -118,7 +110,6 @@ function MerchantDashboard() {
             {/* end header section */}
           </div>
           {/* inner page section */}
-
           <section className="inner_page_head">
             <div className="container_fuild">
               <div className="row">
@@ -127,24 +118,22 @@ function MerchantDashboard() {
                     <nav className="navbar navbar-expand-lg custom_nav-container ">
                       <ul className="navbar-nav">
                         <li className="nav-item">
-                          <a className="nav-link" href="/createProducts">
-                            Create Products{" "}
+                          <a className="nav-link" href="">
                             <span className="sr-only">(current)</span>
                           </a>
                         </li>
                       </ul>
                       <ul className="navbar-nav">
                         <li className="nav-item">
-                          <Link className="nav-link" to="/productsLists">
-                            View List
+                          <Link className="nav-link" to="/allorders">
+                            View Orders
                             <span className="sr-only">(current)</span>
                           </Link>
                         </li>
                       </ul>
                       <ul className="navbar-nav">
                         <li className="nav-item">
-                          <a className="nav-link" href="/allorders">
-                            Order
+                          <a className="nav-link" href="">
                             <span className="sr-only">(current)</span>
                           </a>
                         </li>
@@ -152,7 +141,6 @@ function MerchantDashboard() {
                       <ul className="navbar-nav">
                         <li className="nav-item">
                           <a className="nav-link" href="">
-                            Stock Details
                             <span className="sr-only">(current)</span>
                           </a>
                         </li>
@@ -170,29 +158,66 @@ function MerchantDashboard() {
               <div className="row">
                 <div className="col-lg-8 offset-lg-2">
                   <div className="full">
-                    <form action="index.html">
-                      <fieldset>
-                        {/* <input
-                          type="text"
-                          placeholder="Enter your user name"
-                          name="name"
-                          required
-                        />
-                        {/* <input
-                        type="email"
-                        placeholder="Enter your email address"
-                        name="email"
-                        required
-                      /> */}
-                        {/* <input
-                          type="password"
-                          placeholder="Enter Password"
-                          name="password"
-                          required
-                        /> */}
+                    {errorMessage && (
+                      <ErrorMessage
+                        message={errorMessage}
+                        clear={() => setErrorMessage(null)}
+                      />
+                    )}
+                    <br />
+                    <h3>Page of {pageNumber + 1}</h3>
 
-                        {/* <input type="submit" defaultValue="Submit" /> */}
-                      </fieldset>
+                    <form
+                      className="form"
+                      id="form"
+                      encType="multipart/form-data"
+                    >
+                      <table className="table">
+                        <thead className="thead-dark">
+                          <tr key="index">
+                            <th>Order id</th>
+                            <th>Total Amount</th>
+                            <th>Created at</th>
+                            <th>Accept/Reject</th>
+                            {/* <th>Cost</th>
+                              <th>Weight</th>
+                              <th>Quantity</th>
+                              <th>Offer</th>
+                              <th>Total Amount</th>
+                              <th>Edit</th>
+                              <th>Delete</th> */}
+                          </tr>
+                        </thead>
+                        {orders.map((order,id) => {
+                          return (
+                            <tbody>
+                              <tr key={order.id}>
+                                <td>{order._id}</td>
+                                {/* <td>{product._id}</td> */}
+                                <td>{order.amount}</td>
+
+                                <td>{order.createdAt}</td>
+                                {/* <td>{product.cost}</td>
+                                  <td>{product.weight}</td>
+                                  <td>{product.quantity}</td>
+                                  <td>{product.offer}</td>
+                                  <td>{product.totalamount}</td> */}
+                                {/* <td>
+                                    <Link
+                                      className="btn btn-primary"
+                                      to={`/editProduct/${product._id}`}
+                                      key={i}
+                                      product={{ product }}
+                                      getProducts={{ getProducts }}
+                                    >
+                                      Edit
+                                    </Link>
+                                  </td> */}
+                              </tr>
+                            </tbody>
+                          );
+                        })}
+                      </table>
                     </form>
                   </div>
                 </div>
@@ -225,5 +250,3 @@ function MerchantDashboard() {
     </div>
   );
 }
-
-export default MerchantDashboard;
