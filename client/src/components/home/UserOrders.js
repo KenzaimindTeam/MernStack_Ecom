@@ -5,9 +5,8 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.css";
 import Container from "react-bootstrap/Container";
-import Row from 'react-bootstrap/Row';
+import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-
 
 function UserOrders() {
   const [user, setUser] = useState("");
@@ -23,8 +22,8 @@ function UserOrders() {
   }
   async function getOrders(user) {
     const orderRes = await Axios.get("http://localhost:5000/order/ordersLists");
-      setOrders(orderRes.data);
-      console.log("orders..............." + orders);
+    setOrders(orderRes.data);
+    console.log("orders..............." + orders);
   }
 
   useEffect((user) => {
@@ -258,29 +257,30 @@ function UserOrders() {
                 )}
                 <br />
                 {/* <form className="form" id="form" encType="multipart/form-data"> */}
-                                  {/* <fieldset> */}
-                                 
-                                  {orders.map((order, i)=>{
-                                      return (
-                                        <div>
-                                          <Container>
-                                            {/* <tbody i={order._id}></tbody> */}
-                                            <Row
-                                              style={{
-                                                background: "skyblue",
-                                                paddingTop: 10,
-                                                border: "2px solid",
-                                                borderColor: "white",
-                                                color: "#04000a",
-                                              }}
-                                            >
-                                              {" "} 
-                                              Order History
-                                              <Col>{order.createdAt}</Col>
-                                                      <Col>Rs.{order.amount}/-</Col>
-                                                      <Col>Click here to view products ordered</Col>
-                                              {/* <div className="fo"> */}
-                                              {/* <tr>
+                {/* <fieldset> */}
+
+                {orders.map((order, i) => {
+                  return (
+                    <div>
+                      <Container>
+                        {/* <tbody i={order._id}></tbody> */}
+                        <Row
+                          style={{
+                            background: "skyblue",
+                            paddingTop: 10,
+                            border: "2px solid",
+                            borderColor: "white",
+                            color: "#04000a",
+                          }}
+                        >
+                          <Col>{i + 1}</Col>
+                          <Col>Order History</Col>
+                          <Col>{order.createdAt}</Col>
+                          <Col>Rs.{order.amount}/-</Col>
+                          <Col>{order.status}</Col>
+                          <Col>Click here to view products ordered</Col>
+                          {/* <div className="fo"> */}
+                          {/* <tr>
                                                       {" "}
                                                       <td>{order.amount}</td>
                                                     </tr>
@@ -291,15 +291,14 @@ function UserOrders() {
                                                       {" "}
                                                       <td>{order.count}</td>
                                                     </tr> */}
-                                              {/* </div> */}
-                                            </Row>
-                                            {/* </tbody> */}
-                                          </Container>
-                                        </div>
-                                      );
-                                  })
-                                  }
-                 
+                          {/* </div> */}
+                        </Row>
+                        {/* </tbody> */}
+                      </Container>
+                    </div>
+                  );
+                })}
+
                 {/* </form> */}
               </div>
               {/* <br />
@@ -358,7 +357,6 @@ function UserOrders() {
       </section>
 
       {/* footer section */}
-     
     </div>
   );
 }

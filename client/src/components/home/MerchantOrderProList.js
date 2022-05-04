@@ -1,10 +1,14 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, Component } from "react";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 
+import Select from "react-select";
+
 import MerchantContext from "../../context/MerchantContext";
 import ErrorMessage from "../misc/ErrorMessage";
+// import Dropdown from "react-dropdown";
+// import "react-dropdown/style.css";
 
 export default function MerchantOrderProList(props) {
   const [orders, setOrders] = useState([]);
@@ -12,18 +16,40 @@ export default function MerchantOrderProList(props) {
   const [merchant, setMerchant] = useState([]);
   const [searchOn, setSearchOn] = useState(false);
 
+  const [delStatus, setDelStatus] = useState("");
+
+  // const options = [
+  //   "Not processed",
+  //   "Processing",
+  //   "Shipped",
+  //   "Delivered",
+  //   "Cancelled",
+  // ];
+  // const defaultOption = options[0];
+
   const [pageNumber, setPageNumber] = useState(0);
   const [numberOfPages, setNumberOfPages] = useState(0);
   const pages = new Array(numberOfPages).fill(null).map((v, i) => i);
 
   let navigate = useNavigate();
 
+  async function saveStatus(id) {
+    const orderData = {
+      status: delStatus,
+    };
+    await Axios.put(`http://localhost:5000/order/createOrder/${id}`, orderData);
+  }
   async function getMerchant() {
     const merchantRes = await Axios.get(
       "http://localhost:5000/authMerchant/merchantProfile"
     );
 
     setMerchant(merchantRes.data);
+  }
+  async function getOrder() {
+    await Axios.get("http://localhost:5000/order/ordersLists");
+
+    //  setMerchant(merchantRes.data);
   }
 
   const gotoPrevious = () => {
@@ -41,19 +67,19 @@ export default function MerchantOrderProList(props) {
       console.log(err);
     }
   };
+  useEffect(() => {
+    getOrder();
+  }, []);
 
-  useEffect(
-    (id) => {
-      fetch(`http://localhost:5000/order/allorders?page=${pageNumber}`)
-        .then((response) => response.json())
-        .then(({ totalPages, orders }) => {
-          setOrders(orders);
-          setNumberOfPages(totalPages);
-          getMerchant();
-        });
-    },
-    [pageNumber]
-  );
+  useEffect(() => {
+    fetch(`http://localhost:5000/order/allorders?page=${pageNumber}`)
+      .then((response) => response.json())
+      .then(({ totalPages, orders }) => {
+        setOrders(orders);
+        setNumberOfPages(totalPages);
+        getMerchant();
+      });
+  }, [pageNumber]);
 
   async function logout() {
     await Axios.get("http://localhost:5000/auth/logOut");
@@ -197,7 +223,7 @@ export default function MerchantOrderProList(props) {
                               <th>Order id</th>
                               <th>Total Amount</th>
                               <th>Created at</th>
-                              <th>Accept/Reject</th>
+                              <th colSpan={2}>Accept/Reject</th>
                               {/* <th>Cost</th>
                               <th>Weight</th>
                               <th>Quantity</th>
@@ -217,6 +243,41 @@ export default function MerchantOrderProList(props) {
                                   <td>{order.amount}</td>
 
                                   <td>{order.createdAt}</td>
+                                  <td>
+                                    {/* <Select
+                                      options={options}
+                                      value={defaultOption}
+                                    /> */}
+                                    <select
+                                      className="custom-select"
+                                      onClick={() => saveStatus(order._id)}
+                                      key={order._id}
+                                      onChange={(e, id) =>
+                                        setDelStatus(e.target.value)
+                                      }
+                                    >
+                                      <option defaultValue={order.status}>
+                                        {order.status}{" "}
+                                      </option>
+                                      <option value="Processing">
+                                        Processing
+                                      </option>
+                                      <option value="Shipped">Shipped</option>
+                                      <option value="Delivered">
+                                        Delivered
+                                      </option>
+                                      <option value="Cancelled">
+                                        Cancelled
+                                      </option>
+                                    </select>
+                                  </td>
+                                  <td>
+                                    {/* <button onClick={saveStatus(order._id)}>
+                                      Submit
+                                    </button> */}
+                                    {/* {delStatus(id)} */}
+                                  </td>
+
                                   {/* <td>{product.cost}</td>
                                   <td>{product.weight}</td>
                                   <td>{product.quantity}</td>
@@ -240,14 +301,14 @@ export default function MerchantOrderProList(props) {
                         </table>
                         <div key={pageNumber.toString()} className="btn-box">
                           <button
-                            className="btn-outline-primary"
+                            className="btn-outline-danger"
                             onClick={gotoPrevious}
                           >
                             Previous
                           </button>
                           {pages.map((pageIndex) => (
                             <button
-                              className="btn-primary"
+                              className="btn-grey"
                               key={pageIndex}
                               onClick={() => setPageNumber(pageIndex)}
                             >
@@ -255,7 +316,7 @@ export default function MerchantOrderProList(props) {
                             </button>
                           ))}
                           <button
-                            className="btn-outline-primary"
+                            className="btn-outline-danger"
                             onClick={gotoNext}
                           >
                             Next
