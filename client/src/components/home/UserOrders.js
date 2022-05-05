@@ -5,10 +5,16 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.css";
 import Container from "react-bootstrap/Container";
+<<<<<<< HEAD
 import Row from 'react-bootstrap/Row';
 import Col from "react-bootstrap/Col";
 
 
+=======
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+
+>>>>>>> c8de4655d3527be9f4c7d497510cdd3a247d43be
 function UserOrders() {
   const [user, setUser] = useState("");
   const [orders, setOrders] = useState([]);
@@ -23,8 +29,13 @@ function UserOrders() {
   }
   async function getOrders(user) {
     const orderRes = await Axios.get("http://localhost:5000/order/ordersLists");
+<<<<<<< HEAD
       setOrders(orderRes.data);
       console.log("orders..............." + orders);
+=======
+    setOrders(orderRes.data);
+    console.log("orders..............." + orders);
+>>>>>>> c8de4655d3527be9f4c7d497510cdd3a247d43be
   }
 
   useEffect((user) => {
@@ -258,6 +269,7 @@ function UserOrders() {
                 )}
                 <br />
                 {/* <form className="form" id="form" encType="multipart/form-data"> */}
+<<<<<<< HEAD
                                   {/* <fieldset> */}
                                  
                                   {orders.map((order, i)=>{
@@ -281,6 +293,32 @@ function UserOrders() {
                                                       <Col>Click here to view products ordered</Col>
                                               {/* <div className="fo"> */}
                                               {/* <tr>
+=======
+                {/* <fieldset> */}
+
+                {orders.map((order, i) => {
+                  return (
+                    <div>
+                      <Container>
+                        {/* <tbody i={order._id}></tbody> */}
+                        <Row
+                          style={{
+                            background: "skyblue",
+                            paddingTop: 10,
+                            border: "2px solid",
+                            borderColor: "white",
+                            color: "#04000a",
+                          }}
+                        >
+                          <Col>{i + 1}</Col>
+                          <Col>Order History</Col>
+                          <Col>{order.createdAt}</Col>
+                          <Col>Rs.{order.amount}/-</Col>
+                          <Col>{order.status}</Col>
+                          <Col>Click here to view products ordered</Col>
+                          {/* <div className="fo"> */}
+                          {/* <tr>
+>>>>>>> c8de4655d3527be9f4c7d497510cdd3a247d43be
                                                       {" "}
                                                       <td>{order.amount}</td>
                                                     </tr>
@@ -291,6 +329,7 @@ function UserOrders() {
                                                       {" "}
                                                       <td>{order.count}</td>
                                                     </tr> */}
+<<<<<<< HEAD
                                               {/* </div> */}
                                             </Row>
                                             {/* </tbody> */}
@@ -300,6 +339,16 @@ function UserOrders() {
                                   })
                                   }
                  
+=======
+                          {/* </div> */}
+                        </Row>
+                        {/* </tbody> */}
+                      </Container>
+                    </div>
+                  );
+                })}
+
+>>>>>>> c8de4655d3527be9f4c7d497510cdd3a247d43be
                 {/* </form> */}
               </div>
               {/* <br />
@@ -358,7 +407,10 @@ function UserOrders() {
       </section>
 
       {/* footer section */}
+<<<<<<< HEAD
      
+=======
+>>>>>>> c8de4655d3527be9f4c7d497510cdd3a247d43be
     </div>
   );
 }

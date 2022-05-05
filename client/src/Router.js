@@ -37,7 +37,11 @@ import AutoComplete from "./components/home/AutoComplete";
 import UserHome from "./components/home/UserHome";
 import MerchantOrderProList from "./components/home/MerchantOrderProList";
 import UserOrders from "./components/home/UserOrders";
+<<<<<<< HEAD
 
+=======
+import MercStock from "./components/home/MercStock";
+>>>>>>> c8de4655d3527be9f4c7d497510cdd3a247d43be
 function Router() {
   return (
     <div>
@@ -50,6 +54,11 @@ function Router() {
           <Route exact path="/updateUser" element={<UpdateUser />} />
           <Route exact path="/autocomplete" element={<AutoComplete />} />
           <Route exact path="/userHome" element={<UserHome />} />
+<<<<<<< HEAD
+=======
+          <Route exact path="/stock" element={<MercStock />} />
+
+>>>>>>> c8de4655d3527be9f4c7d497510cdd3a247d43be
           <Route
             exact
             path="/userChangePassword"

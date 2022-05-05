@@ -6,11 +6,15 @@
 ./server/.env
 server/.env
 
+
+server/.envgit filter-branch --index-filter "git rm -rf --cached --ignore-unmatch .env" HEAD
+.env
+
 /.pnp
 .pnp.js
 /client/node_modules
 /server/node_modules
-<<<<<<< HEAD
+
 
 server/.env
 # testing

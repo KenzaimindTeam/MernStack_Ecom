@@ -155,6 +155,7 @@ router.post("/sendd-email", async (req, res) => {
           //  });
         });
 
+<<<<<<< HEAD
         //send sms
 
         // messagebird.messages.create(
@@ -174,6 +175,9 @@ router.post("/sendd-email", async (req, res) => {
         //      }
         //    }
         //  );
+=======
+       
+>>>>>>> c8de4655d3527be9f4c7d497510cdd3a247d43be
       });
     });
   } catch (err) {
@@ -197,7 +201,11 @@ router.post("/change-password/:id", authUser, async (req, res) => {
 
   const correctPassword = await bcrypt.compare(
     oldPassword,
+<<<<<<< HEAD
     existingUser.passwordHash66666666666666666666666666666
+=======
+    existingUser.passwordHash
+>>>>>>> c8de4655d3527be9f4c7d497510cdd3a247d43be
   );
 
   if (!correctPassword)

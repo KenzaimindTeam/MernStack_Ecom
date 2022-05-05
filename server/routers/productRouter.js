@@ -51,7 +51,11 @@ router.get("/:id", authMerchant, async (req, res) => {
 
     console.log(
       "id.................................................................................." +
+<<<<<<< HEAD
       productId
+=======
+        productId
+>>>>>>> c8de4655d3527be9f4c7d497510cdd3a247d43be
     );
     const originalProduct = await Product.findById(productId);
 
@@ -105,6 +109,7 @@ router.post("/createProducts", authMerchant, async (req, res) => {
 
     console.log(imagePath);
 
+<<<<<<< HEAD
     var nameExp = /^[A-Za-z]*$/;
     if (!nameExp.test(catgname))
       return res.status(400).json({
@@ -148,6 +153,8 @@ router.post("/createProducts", authMerchant, async (req, res) => {
       });
 
 
+=======
+>>>>>>> c8de4655d3527be9f4c7d497510cdd3a247d43be
     const newProduct = new Product({
       catgname,
       machname,
@@ -201,7 +208,11 @@ router.put("/:id", authMerchant, async (req, res) => {
 
     console.log(
       "totalamount--------------------------------" +
+<<<<<<< HEAD
       originalProduct.totalamount
+=======
+        originalProduct.totalamount
+>>>>>>> c8de4655d3527be9f4c7d497510cdd3a247d43be
     );
 
     var nameExp = /^[A-Za-z]*$/;
@@ -209,6 +220,7 @@ router.put("/:id", authMerchant, async (req, res) => {
       return res.status(400).json({
         errorMessage: "please enter text only",
       });
+<<<<<<< HEAD
     var MnameExp = /^[A-Za-z]*$/;
     if (!MnameExp.test(originalProduct.machname))
       return res.status(400).json({
@@ -219,6 +231,13 @@ router.put("/:id", authMerchant, async (req, res) => {
     if (!QExp.test(originalProduct.quantity))
       return res.status(400).json({
         errorMessage: "please enter quantity in numeric",
+=======
+
+    var phoneExp = /^[0-9]*$/;
+    if (!phoneExp.test(originalProduct.quantity))
+      return res.status(400).json({
+        errorMessage: "please enter 10 digit number",
+>>>>>>> c8de4655d3527be9f4c7d497510cdd3a247d43be
       });
 
     if (originalProduct.machname.length < 3)

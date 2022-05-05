@@ -1,64 +1,14 @@
-<<<<<<< HEAD
 import React, { useEffect, useState, useContext } from "react";
-import Axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import MerchantContext from "../../context/MerchantContext";
-import ErrorMessage from "../misc/ErrorMessage";
-
-export default function MerchantOrderProList() {
-  const [orders, setOrders] = useState([]);
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [merchant, setMerchant] = useState([]);
-  const [pageNumber, setPageNumber] = useState(0);
-  const [numberOfPages, setNumberOfPages] = useState(0);
-  const pages = new Array(numberOfPages).fill(null).map((v, i) => i);
-  let navigate = useNavigate();
-
-  useEffect(
-    (id) => {
-      fetch(`http://localhost:5000/order/allorders?page=${pageNumber}`)
-        .then((response) => response.json())
-        .then(({ totalPages, orders }) => {
-          setOrders(orders);
-          setNumberOfPages(totalPages);
-          getMerchant();
-        });
-
-      //   console.log("merchantprofile merchant   " + merchant.firstname);
-      //   console.log(products.catgname);
-    },
-    [pageNumber]
-  );
-
-=======
-import React, { useEffect, useState, useContext, Component } from "react";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 
-import Select from "react-select";
-
-import MerchantContext from "../../context/MerchantContext";
 import ErrorMessage from "../misc/ErrorMessage";
-// import Dropdown from "react-dropdown";
-// import "react-dropdown/style.css";
 
-export default function MerchantOrderProList(props) {
-  const [orders, setOrders] = useState([]);
+export default function MercStock(props) {
+    const [products, setProducts] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
   const [merchant, setMerchant] = useState([]);
-  const [searchOn, setSearchOn] = useState(false);
-
-  const [delStatus, setDelStatus] = useState("");
-
-  // const options = [
-  //   "Not processed",
-  //   "Processing",
-  //   "Shipped",
-  //   "Delivered",
-  //   "Cancelled",
-  // ];
-  // const defaultOption = options[0];
 
   const [pageNumber, setPageNumber] = useState(0);
   const [numberOfPages, setNumberOfPages] = useState(0);
@@ -66,26 +16,12 @@ export default function MerchantOrderProList(props) {
 
   let navigate = useNavigate();
 
-  async function saveStatus(id) {
-    const orderData = {
-      status: delStatus,
-    };
-    await Axios.put(`http://localhost:5000/order/createOrder/${id}`, orderData);
-  }
->>>>>>> c8de4655d3527be9f4c7d497510cdd3a247d43be
   async function getMerchant() {
     const merchantRes = await Axios.get(
       "http://localhost:5000/authMerchant/merchantProfile"
     );
 
     setMerchant(merchantRes.data);
-  }
-<<<<<<< HEAD
-=======
-  async function getOrder() {
-    await Axios.get("http://localhost:5000/order/ordersLists");
-
-    //  setMerchant(merchantRes.data);
   }
 
   const gotoPrevious = () => {
@@ -95,28 +31,24 @@ export default function MerchantOrderProList(props) {
   const gotoNext = () => {
     try {
       setPageNumber(Math.min(numberOfPages - 1, pageNumber + 1));
-      console.log(
-        "-----------------------------------------------------------------" +
-          pageNumber
-      );
+   
     } catch (err) {
       console.log(err);
     }
   };
-  useEffect(() => {
-    getOrder();
-  }, []);
 
-  useEffect(() => {
-    fetch(`http://localhost:5000/order/allorders?page=${pageNumber}`)
-      .then((response) => response.json())
-      .then(({ totalPages, orders }) => {
-        setOrders(orders);
-        setNumberOfPages(totalPages);
-        getMerchant();
-      });
-  }, [pageNumber]);
->>>>>>> c8de4655d3527be9f4c7d497510cdd3a247d43be
+  useEffect(
+    (id) => {
+      fetch(`http://localhost:5000/product/productsAll?page=${pageNumber}`)
+        .then((response) => response.json())
+        .then(({ totalPages, products }) => {
+          setProducts(products);
+          setNumberOfPages(totalPages);
+          getMerchant();
+        });
+    },
+    [pageNumber]
+  );
 
   async function logout() {
     await Axios.get("http://localhost:5000/auth/logOut");
@@ -206,8 +138,8 @@ export default function MerchantOrderProList(props) {
                       </ul>
                       <ul className="navbar-nav">
                         <li className="nav-item">
-                          <Link className="nav-link" to="/allorders">
-                            View Orders
+                          <Link className="nav-link" to="/stock">
+                            View Stock
                             <span className="sr-only">(current)</span>
                           </Link>
                         </li>
@@ -234,36 +166,6 @@ export default function MerchantOrderProList(props) {
           </section>
           {/* end inner page section */}
           {/* why section */}
-<<<<<<< HEAD
-          <section className="why_section layout_padding">
-            <div className="container">
-              <div className="row">
-                <div className="col-lg-8 offset-lg-2">
-                  <div className="full">
-                    {errorMessage && (
-                      <ErrorMessage
-                        message={errorMessage}
-                        clear={() => setErrorMessage(null)}
-                      />
-                    )}
-                    <br />
-                    <h3>Page of {pageNumber + 1}</h3>
-
-                    <form
-                      className="form"
-                      id="form"
-                      encType="multipart/form-data"
-                    >
-                      <table className="table">
-                        <thead className="thead-dark">
-                          <tr key="index">
-                            <th>Order id</th>
-                            <th>Total Amount</th>
-                            <th>Created at</th>
-                            <th>Accept/Reject</th>
-                            {/* <th>Cost</th>
-=======
-          {!searchOn && (
             <section className="why_section layout_padding">
               <div className="container">
                 <div className="row">
@@ -286,90 +188,35 @@ export default function MerchantOrderProList(props) {
                         <table className="table">
                           <thead className="thead-dark">
                             <tr>
-                              <th>Order id</th>
-                              <th>Total Amount</th>
-                              <th>Created at</th>
-                              <th colSpan={2}>Accept/Reject</th>
+                              <th>Product</th>
+                              <th>Quantity</th>
+                              {/* <th>Created at</th>
+                              <th>Accept/Reject</th> */}
                               {/* <th>Cost</th>
->>>>>>> c8de4655d3527be9f4c7d497510cdd3a247d43be
                               <th>Weight</th>
                               <th>Quantity</th>
                               <th>Offer</th>
                               <th>Total Amount</th>
                               <th>Edit</th>
                               <th>Delete</th> */}
-<<<<<<< HEAD
-                          </tr>
-                        </thead>
-                        {orders.map((order,id) => {
-                          return (
-                            <tbody>
-                              <tr key={order.id}>
-                                <td>{order._id}</td>
-                                {/* <td>{product._id}</td> */}
-                                <td>{order.amount}</td>
-
-                                <td>{order.createdAt}</td>
-                                {/* <td>{product.cost}</td>
-=======
                             </tr>
                           </thead>
 
-                          {orders.map((order, id) => {
+                          {products.map((product, id) => {
                             return (
                               <tbody>
-                                <tr key={order._id}>
-                                  <td>{order._id}</td>
+                                <tr key={product._id}>
+                                  <td>{product.machname}</td>
                                   {/* <td>{product._id}</td> */}
-                                  <td>{order.amount}</td>
+                                  <td>{product.quantity}</td>
 
-                                  <td>{order.createdAt}</td>
-                                  <td>
-                                    {/* <Select
-                                      options={options}
-                                      value={defaultOption}
-                                    /> */}
-                                    <select
-                                      className="custom-select"
-                                      onClick={() => saveStatus(order._id)}
-                                      key={order._id}
-                                      onChange={(e, id) =>
-                                        setDelStatus(e.target.value)
-                                      }
-                                    >
-                                      <option defaultValue={order.status}>
-                                        {order.status}{" "}
-                                      </option>
-                                      <option value="Processing">
-                                        Processing
-                                      </option>
-                                      <option value="Shipped">Shipped</option>
-                                      <option value="Delivered">
-                                        Delivered
-                                      </option>
-                                      <option value="Cancelled">
-                                        Cancelled
-                                      </option>
-                                    </select>
-                                  </td>
-                                  <td>
-                                    {/* <button onClick={saveStatus(order._id)}>
-                                      Submit
-                                    </button> */}
-                                    {/* {delStatus(id)} */}
-                                  </td>
-
+                                  {/* <td>{order.createdAt}</td> */}
                                   {/* <td>{product.cost}</td>
->>>>>>> c8de4655d3527be9f4c7d497510cdd3a247d43be
                                   <td>{product.weight}</td>
                                   <td>{product.quantity}</td>
                                   <td>{product.offer}</td>
                                   <td>{product.totalamount}</td> */}
-<<<<<<< HEAD
-                                {/* <td>
-=======
                                   {/* <td>
->>>>>>> c8de4655d3527be9f4c7d497510cdd3a247d43be
                                     <Link
                                       className="btn btn-primary"
                                       to={`/editProduct/${product._id}`}
@@ -380,19 +227,6 @@ export default function MerchantOrderProList(props) {
                                       Edit
                                     </Link>
                                   </td> */}
-<<<<<<< HEAD
-                              </tr>
-                            </tbody>
-                          );
-                        })}
-                      </table>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-=======
                                 </tr>
                               </tbody>
                             );
@@ -427,8 +261,7 @@ export default function MerchantOrderProList(props) {
                 </div>
               </div>
             </section>
-          )}
->>>>>>> c8de4655d3527be9f4c7d497510cdd3a247d43be
+          
           {/* end why section */}
           {/* arrival section */}
 

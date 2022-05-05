@@ -151,7 +151,11 @@ function MerchantDashboard() {
                       </ul>
                       <ul className="navbar-nav">
                         <li className="nav-item">
+<<<<<<< HEAD
                           <a className="nav-link" href="">
+=======
+                          <a className="nav-link" href="/stock">
+>>>>>>> c8de4655d3527be9f4c7d497510cdd3a247d43be
                             Stock Details
                             <span className="sr-only">(current)</span>
                           </a>
