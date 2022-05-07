@@ -43,6 +43,7 @@ import OrderProductView from "./components/home/OrderProductView";
 import MercStock from "./components/home/MercStock";
 
 
+
 function Router() {
   return (
     <div>
@@ -55,12 +56,17 @@ function Router() {
           <Route exact path="/updateUser" element={<UpdateUser />} />
           <Route exact path="/autocomplete" element={<AutoComplete />} />
           <Route exact path="/userHome" element={<UserHome />} />
+
           <Route exact path="/stock" element={<MercStock />} />
+
           <Route
             exact
             path="/orderProductView/:id"
             element={<OrderProductView />}
           />
+
+
+
           <Route
             exact
             path="/userChangePassword"

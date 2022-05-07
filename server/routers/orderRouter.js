@@ -6,7 +6,7 @@ const User = require("../models/userModel");
 const { Order, CartItem } = require("../models/orderModel");
 
 const authUser = require("../middleware/authUser.js");
-
+// const Order = require("../models/OrderModel");
 const multer = require("multer");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -18,6 +18,7 @@ const app = express();
 const { Console } = require("console");
 
 const authMerchant = require("../middleware/authMerchant.js");
+const { json } = require("body-parser");
 
 router.get("/allorders", async (req, res) => {
   try {
@@ -29,6 +30,8 @@ router.get("/allorders", async (req, res) => {
       .limit(PAGE_SIZE)
       .skip(PAGE_SIZE * page);
 
+    // const token = req.cookies;
+    // console.log("all orders....." + orders); //here all users...
     res.json({ totalPages: Math.ceil(total / PAGE_SIZE), orders });
   } catch (err) {
     res.status(500).send();
@@ -73,7 +76,24 @@ router.put("/createOrder/:id", authMerchant, async (req, res) => {
     originalOrder.status = status || originalOrder.status;
 
     const saveOrder = await originalOrder.save();
-
+    // // -------------
+    //     let bulkOps = req.body.order.products.map((item) => {
+    //       return {
+    //         updateOne: {
+    //           filter: { _id: item._id },
+    //           update: { $inc: { quantity: -item.count, sold: +item.count } },
+    //         },
+    //       };
+    //     });
+    //     Product.bulkWrite(bulkOps, {}, (error, products) => {
+    //       if (error) {
+    //         return res.status(400).json({
+    //           error: "Could not update product",
+    //         });
+    //       }
+    //       next();
+    //     });
+    //     // -----------------
     res.json({ status: status });
   } catch (err) {
     console.log(err);
@@ -83,6 +103,9 @@ router.put("/createOrder/:id", authMerchant, async (req, res) => {
 
 router.get("/ordersLists", authUser, async (req, res) => {
   try {
+    // const token = req.cookies;
+    // console.log(token);
+
     const orders = await Order.find({ user: req.user });
     console.log("orders list in backend" + orders);
     res.json(orders);
@@ -97,8 +120,12 @@ router.post("/createOrder/:id", authUser, async (req, res) => {
     console.log("token" + token);
 
     const user = req.user;
+    // req.body.order.user = req.profile;
+    //    req.user=req.profile
+    // console.log("000000000000" + profile);
 
     const { amount, products, address } = req.body;
+    console.log(Pimage);
 
     console.log(amount + products + address);
     const order = new Order({ amount, products, address, user });

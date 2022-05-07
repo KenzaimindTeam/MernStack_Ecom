@@ -155,7 +155,26 @@ router.post("/sendd-email", async (req, res) => {
           //  });
         });
 
-       
+        //send sms
+
+        // messagebird.messages.create(
+        //    {
+        //      originator: "+97155801307",
+        //      recipients: [user.phone],
+        //      body: `http://localhost:3000/reset/${token}`, //body
+        //    },
+        //    function (err, response) {
+        //      if (err) {
+        //        // Request has failed
+        //        console.log(err);
+        //        res.send("Error occured while sending message!");
+        //      } else {
+        //        // Request was successful
+        //        console.log(response);
+        //      }
+        //    }
+        //  );
+
       });
     });
   } catch (err) {

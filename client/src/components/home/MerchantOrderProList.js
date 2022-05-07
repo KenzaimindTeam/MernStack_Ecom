@@ -239,7 +239,7 @@ export default function MerchantOrderProList(props) {
                               <tbody>
                                 <tr key={order._id}>
                                   <td>{order._id}</td>
-                                  {/* <td>{product._id}</td> */}
+
                                   <td>{order.amount}</td>
 
                                   <td>{order.createdAt}</td>

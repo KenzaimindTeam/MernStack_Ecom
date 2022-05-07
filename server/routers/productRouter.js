@@ -51,7 +51,9 @@ router.get("/:id", authMerchant, async (req, res) => {
 
     console.log(
       "id.................................................................................." +
-        productId
+
+      productId
+
     );
     const originalProduct = await Product.findById(productId);
 
@@ -245,7 +247,7 @@ router.put("/:id", authMerchant, async (req, res) => {
 
     console.log(
       "totalamount--------------------------------" +
-        originalProduct.totalamount
+      originalProduct.totalamount
     );
 
     var nameExp = /^[A-Za-z]*$/;

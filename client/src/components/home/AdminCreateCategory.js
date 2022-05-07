@@ -194,16 +194,34 @@ function AdminCreateCategory() {
                       onSubmit={saveProduct}
                       encType="multipart/form-data"
                     >
+
+
+                      <label htmlFor="form-catg">
+                        <h4>Category Name</h4>
+                       
+                        <select onChange={(e) => setCatgName(e.target.value)} style={{borderWidth:'3px',width:'240%', fontSize:'20px', height:'50px'}}>
+                          <option value="Machinery">Select Category</option>
+                          <option values="Agricultural machinery">Agricultural Machinery</option>
+                          <option values="industrial machinery">Industrial Machinery</option>
+                          <option values="tex machinery">Textile Machinery</option>
+                          <option values="bakery machinery">Backery Machinery</option>
+                          <option values="oils mach">Oils Machinery</option>
+
+                        </select>
+                      </label>
+
                       {/* <fieldset> */}
-                      <label htmlFor="form-catg">Category Name</label>
+                      {/*  <label htmlFor="form-catg">Category Name</label>
 
                       <input
                         value={catgName}
                         id="form-catg"
                         type="text"
-                        placeholder="Enter Category"
+                        placeholder="Select Category"
                         onChange={(e) => setCatgName(e.target.value)}
+                       
                       />
+                    
                       {/* <select>
                         <option value="Fresh Produce">Grapefruit</option>
                         <option value="Meat">Lime</option>
@@ -212,7 +230,9 @@ function AdminCreateCategory() {
                         </option>
                         <option value="mango">Mango</option>
                       </select> */}
-
+                      <br />
+                      <br/>
+                      <br/>
                       <button className="btn btn-info" type="submit">
                         Save Product
                       </button>
