@@ -51,7 +51,7 @@ router.get("/:id", authMerchant, async (req, res) => {
 
     console.log(
       "id.................................................................................." +
-<<<<<<< HEAD
+
       productId
 =======
         productId
