@@ -13,7 +13,8 @@ server/.envgit filter-branch --index-filter "git rm -rf --cached --ignore-unmatc
 <<<<<<< HEAD
 
 server/.env
-# testing
+# testing        
+server/.env
 /coverage
 ../../node_modules
 
