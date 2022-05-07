@@ -4,15 +4,27 @@ import ErrorMessage from "../misc/ErrorMessage";
 import { Link, useParams, useNavigate } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.css";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 
-function UserOrders() {
+function OrderProductView(order) {
   const [user, setUser] = useState("");
-  const [orders, setOrders] = useState([]);
+  const [products, setProducts] = useState([]);
+
+  const { id } = useParams();
+
   let navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState(null);
+
+  async function getProducts() {
+    const productsRes = await Axios.get(
+      `http://localhost:5000/order/createOrder/${id}`
+    );
+    setProducts(productsRes.data);
+  }
+  useEffect(() => {
+    // getProduct(id);
+    console.log("id------------------------------------" + id);
+    getProducts();
+  }, []);
 
   async function getUser() {
     const userRes = await Axios.get(
@@ -20,15 +32,10 @@ function UserOrders() {
     );
     setUser(userRes.data);
   }
-  async function getOrders(user) {
-    const orderRes = await Axios.get("http://localhost:5000/order/ordersLists");
-    setOrders(orderRes.data);
-    console.log("orders..............." + orders);
-  }
 
   useEffect((user) => {
     getUser();
-    getOrders(user);
+    // getOrders(user);
   }, []);
 
   async function logout() {
@@ -244,79 +251,78 @@ function UserOrders() {
 
       {/* end inner page section */}
       {/* why section */}
-      <section className="why_section layout_padding">
+      <section className="product_section layout_padding">
         <div className="container">
+          <div className="heading_container heading_center">
+            <h2>
+              <span>products</span>
+            </h2>
+          </div>
+          <h3></h3>
           <div className="row">
-            <div className="col-lg-8 offset-lg-2">
-              <div className="full">
-                {errorMessage && (
-                  <ErrorMessage
-                    message={errorMessage}
-                    clear={() => setErrorMessage(null)}
-                  />
-                )}
-                <br />
-                {/* <form className="form" id="form" encType="multipart/form-data"> */}
-                {/* <fieldset> */}
-
-                {orders.map((order, i) => {
-                  return (
-                    <div>
-                      <Container>
-                        {/* <tbody i={order._id}></tbody> */}
-                        <Row
-                          style={{
-                            background: "skyblue",
-                            paddingTop: 10,
-                            border: "2px solid",
-                            borderColor: "white",
-                            color: "#04000a",
-                          }}
+            {products.map((item, i) => {
+              return (
+                <div key={item._id} className="col-sm-6 col-md-4 col-lg-3">
+                  <div
+                    className="box"
+                    style={{ backgroundColor: "powderblue" }}
+                  >
+                    <div className="option_container">
+                      <div key={item._id} className="options">
+                        <br />
+                        {/* <button
+                          className="btn btn-danger"
+                          onClick={() => onRemove(product)}
+                          href
+                          className="option1"
                         >
-                          <Col>{i + 1}</Col>
-                          <Col>{order._id}</Col>
-
-                          <Col>Order History</Col>
-                          <Col>{order.createdAt}</Col>
-                          <Col>Rs.{order.amount}/-</Col>
-                          <Col>{order.status}</Col>
-                          <Col>
-                            <Link
-                              to={`/orderProductView/${order._id}`}
-                              key={i}
-                              order={{ order }}
-                            >
-                              Click here to view products ordered
-                            </Link>
-                          </Col>
-                          {/* <div className="fo"> */}
-                          {/* <tr>
-                                                      {" "}
-                                                      <td>{order.amount}</td>
-                                                    </tr>
-                                                    <tr>
-                                                      <td>{order.address}</td>
-                                                    </tr>
-                                                    <tr>
-                                                      {" "}
-                                                      <td>{order.count}</td>
-                                                    </tr> */}
-                          {/* </div> */}
-                        </Row>
-                        {/* </tbody> */}
-                      </Container>
+                          - Remove
+                        </button> */}
+                      </div>
                     </div>
-                  );
-                })}
+                    <div
+                      className="img-box"
+                      style={{
+                        contain: "layout",
+                      }}
+                    >
+                      <img
+                        src={`http://localhost:5000/uploads/${item.Pimage}`}
+                        alt="image"
+                      />
+                    </div>
+                    <div className=" table-info w-auto">
+                      {/* <table> */}
+                      <tr>
+                        <td colSpan="2">
+                          <b>{item.machname}</b>
+                        </td>
+                      </tr>
 
-                {/* </form> */}
-              </div>
-              {/* <br />
-              <p>
-                Don't have an account yet?{" "}
-                <Link to="/userRegister">Register here</Link>
-              </p> */}
-            </div>
+                      <tr>
+                        <td>Cost:{item.cost}/- </td>
+                      </tr>
+                      <tr>
+                        <td>Quantity:{item.count} </td>
+                      </tr>
+                      <tr>
+                        <td colSpan="2">{item._id}</td>
+                      </tr>
+                      <tr>
+                        <td colSpan="2"></td>
+                      </tr>
+                      {/* <tr>
+                        <td>{products.offer} Off</td>
+                        <td>
+                          <b>T Rs.{products.totalamount}/-</b>
+                        </td>
+                      </tr> */}
+                      {/* </table>{" "} */}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -324,46 +330,7 @@ function UserOrders() {
       {/* arrival section */}
 
       <section className="arrival_section">
-        <div className="container">
-          {/* <div className="box"> */}
-          {/* <div className="arrival_bg_box">
-              <img
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-                src="../../images/arrival-bg.png"
-                alt="image"
-              /> */}
-          {/* <img
-                  width={250}
-                  src={require("../../images/arrival-bg.jpg")}
-                  alt=""
-                /> */}
-          {/* client\src\images\arrival-bg.jpg */}
-          {/* D:\job\Engineering_Works_MERN\client\src\images\arrival-bg.jpg */}
-          {/* </div> */}
-          {/* <div className="row">
-              <div className="col-md-6 ml-auto">
-                <div className="heading_container remove_line_bt">
-                  <h2>#NewArrivals</h2>
-                </div>
-                <p style={{ marginTop: "20px", marginBottom: "30px" }}>
-                  famms.com offers high precision suppliers machinery at
-                  industry leading prices. Exporters & Importers from the
-                  world's largest online B2B marketplace. Logistics Service.
-                  Most Popular. Production Monitoring. Trade Assurance.
-                </p>
-                <a href="#">Shop Now</a>
-              </div>
-            </div> */}
-          {/* </div>  */}
-        </div>
+        <div className="container"></div>
       </section>
 
       {/* footer section */}
@@ -371,4 +338,4 @@ function UserOrders() {
   );
 }
 
-export default UserOrders;
+export default OrderProductView;

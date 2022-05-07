@@ -38,6 +38,24 @@ router.get("/allorders", async (req, res) => {
 
 router.get("/createOrder/:id", async (req, res) => {
   console.log("get");
+  const orderId = req.params.id;
+  console.log("orderId : " + orderId);
+  const originalOrder = await Order.findById(orderId);
+  const products = originalOrder.products;
+  // res.json(products);
+
+  // const ProductId = products.id;
+  // console.log("Productid----------" + ProductId);
+  const productId = products.id;
+  const producTab = await Product.findById(products);
+  Pimage = producTab.Pimage;
+  console.log("Pimage ==========" + Pimage);
+  // res.json(Pimage)
+  // const newProducts = { ...req.body, Pimage };
+  // products.push(producTab);
+
+  res.json(products);
+  console.log("products" + products);
 });
 
 router.put("/createOrder/:id", authMerchant, async (req, res) => {

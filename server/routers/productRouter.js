@@ -125,6 +125,93 @@ router.post("/createProducts", authMerchant, async (req, res) => {
   }
 });
 
+// router.put("/:idd", authMerchant, async (req, res) => {
+//   try {
+//     const { catgname, machname, cost, weight, quantity, offer, totalamount } =
+//       req.body;
+//     // validcatgname = req.body.catgname;
+//     // validmachname = req.body.machname;
+//     // validcost = req.body.cost;
+//     // validweight = req.body.weight;
+//     // validquantity = req.body.quantity;
+//     // validoffer = req.body.offer;
+//     // validtotalamount = req.body.totalamount;
+//     // console.log("------------------------validweight"+validweight)
+//     // console.log("------------------------validcatg---"+catgname)
+
+//     // if (
+//     //   !validcatgname ||
+//     //   !validmachname ||
+//     //   !validcost ||
+//     //   !validweight ||
+//     //   !validquantity ||
+//     //   !validoffer ||
+//     //   !validtotalamount
+//     // )
+//     //   return res.status(400).json({
+//     //     errorMessage: "Please fill in all required fields..---------.",
+//     //   });
+//     const productId = req.params.id;
+
+//     //validation
+
+//     if (
+//       !catgname &&
+//       !machname &&
+//       !cost &&
+//       !weight &&
+//       !quantity &&
+//       !offer &&
+//       !totalamount
+//     )
+//       return res.status(400).json({
+//         errorMessage: "Please specify all fields....",
+//       });
+
+//     if (!productId)
+//       return res
+//         .status(400)
+//         .json({ errorMessage: "no product with id was found" });
+
+//     const originalProduct = await Product.findById(productId);
+
+//     if (!originalProduct)
+//       return res
+//         .status(400)
+//         .json({ errorMessage: "No snippet with id was found" });
+//     if (
+//       !originalProduct.catgname &&
+//       !originalProduct.machname &&
+//       !originalProduct.cost &&
+//       !originalProduct.weight &&
+//       !originalProduct.quantity &&
+//       !originalProduct.offer &&
+//       !originalProduct.totalamount
+//     ) {
+//       return res.status(400).json({
+//         errorMessage: "Please specify all fields!!",
+//       });
+//     }
+
+//     if (originalProduct.merchant.toString() !== req.merchant)
+//       return res.status(401).json({ errorMessage: "Unauthorized" });
+
+//     originalProduct.catgname = catgname;
+//     originalProduct.machname = machname;
+//     originalProduct.cost = cost;
+//     originalProduct.weight = weight;
+//     originalProduct.quantity = quantity;
+//     originalProduct.offer = offer;
+//     originalProduct.totalamount = totalamount;
+
+//     const saveProduct = await originalProduct.save();
+//     res.json(saveProduct);
+//   } catch (err) {
+//     res.status(500).send();
+//     console.log(err);
+//   }
+// });
+
 router.put("/:id", authMerchant, async (req, res) => {
   try {
     console.log("inside id...................................................");
