@@ -261,7 +261,7 @@ function UserOrders() {
 
                 {orders.map((order, i) => {
                   return (
-                    <div>
+                    <div key={i}>
                       <Container>
                         {/* <tbody i={order._id}></tbody> */}
                         <Row

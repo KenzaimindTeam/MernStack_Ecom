@@ -4,9 +4,10 @@ const { ObjectId } = mongoose.Schema;
 
 const CartItemSchema = new mongoose.Schema(
   {
-    product: { type: ObjectId, ref: "Product" },
-    name: String,
-    price: Number,
+    id: { type: ObjectId, ref: "Product" },
+    Pimage: String,
+    machname: String,
+    cost: Number,
     count: Number,
   },
   { timestamps: true }
@@ -19,9 +20,9 @@ const OrderSchema = new mongoose.Schema(
   {
     products: [CartItemSchema],
     transaction_id: {},
-    amount: { type: Number },
+    amount: Number,
     address: String,
-    pincode: String,
+    // pincode:String,
     status: {
       type: String,
       default: "Not processed",

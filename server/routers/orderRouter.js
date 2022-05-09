@@ -4,6 +4,7 @@ const Product = require("../models/productModel");
 const User = require("../models/userModel");
 
 const { Order, CartItem } = require("../models/orderModel");
+// const { decreaseQuantity } = require("./order");
 
 const authUser = require("../middleware/authUser.js");
 // const Order = require("../models/OrderModel");
@@ -108,6 +109,7 @@ router.get("/ordersLists", authUser, async (req, res) => {
 
     const orders = await Order.find({ user: req.user });
     console.log("orders list in backend" + orders);
+
     res.json(orders);
   } catch (err) {
     res.status(500).send();
@@ -125,7 +127,7 @@ router.post("/createOrder/:id", authUser, async (req, res) => {
     // console.log("000000000000" + profile);
 
     const { amount, products, address } = req.body;
-    console.log(Pimage);
+    // console.log(Pimage);
 
     console.log(amount + products + address);
     const order = new Order({ amount, products, address, user });

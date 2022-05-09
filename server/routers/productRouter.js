@@ -127,6 +127,7 @@ router.post("/createProducts", authMerchant, async (req, res) => {
   }
 });
 
+
 // router.put("/:idd", authMerchant, async (req, res) => {
 //   try {
 //     const { catgname, machname, cost, weight, quantity, offer, totalamount } =
