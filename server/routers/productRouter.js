@@ -51,9 +51,7 @@ router.get("/:id", authMerchant, async (req, res) => {
 
     console.log(
       "id.................................................................................." +
-
       productId
-
     );
     const originalProduct = await Product.findById(productId);
 
@@ -107,6 +105,49 @@ router.post("/createProducts", authMerchant, async (req, res) => {
 
     console.log(imagePath);
 
+    var nameExp = /^[A-Za-z]*$/;
+    if (!nameExp.test(catgname))
+      return res.status(400).json({
+        errorMessage: "please enter alphabets only in category name",
+      });
+
+    var MnameExp = /^[A-Za-z]*$/;
+    if (!MnameExp.test(machname))
+      return res.status(400).json({
+        errorMessage: "please enter alphabets only in Machine name",
+      });
+
+    var CExp = /^[0-9]{2,40}$/;
+    if (!CExp.test(cost))
+      return res.status(400).json({
+        errorMessage: "please enter numeric only ",
+      });
+
+    var QExp = /^[0-9]{1,20}$/;
+    if (!QExp.test(quantity))
+      return res.status(400).json({
+        errorMessage: "please enter numeric only ",
+      });
+
+    var WExp = /^[0-9]{1,20}$/;
+    if (!WExp.test(weight))
+      return res.status(400).json({
+        errorMessage: "please enter numeric only ",
+      });
+
+    var OExp = /^[0-9]{2,40}$/;
+    if (!OExp.test(offer))
+      return res.status(400).json({
+        errorMessage: "please enter numeric only ",
+      });
+
+    var TExp = /^[0-9]{1,20}$/;
+    if (!TExp.test(totalamount))
+      return res.status(400).json({
+        errorMessage: "please enter numeric only ",
+      });
+
+
     const newProduct = new Product({
       catgname,
       machname,
@@ -126,94 +167,6 @@ router.post("/createProducts", authMerchant, async (req, res) => {
     console.log(err);
   }
 });
-
-
-// router.put("/:idd", authMerchant, async (req, res) => {
-//   try {
-//     const { catgname, machname, cost, weight, quantity, offer, totalamount } =
-//       req.body;
-//     // validcatgname = req.body.catgname;
-//     // validmachname = req.body.machname;
-//     // validcost = req.body.cost;
-//     // validweight = req.body.weight;
-//     // validquantity = req.body.quantity;
-//     // validoffer = req.body.offer;
-//     // validtotalamount = req.body.totalamount;
-//     // console.log("------------------------validweight"+validweight)
-//     // console.log("------------------------validcatg---"+catgname)
-
-//     // if (
-//     //   !validcatgname ||
-//     //   !validmachname ||
-//     //   !validcost ||
-//     //   !validweight ||
-//     //   !validquantity ||
-//     //   !validoffer ||
-//     //   !validtotalamount
-//     // )
-//     //   return res.status(400).json({
-//     //     errorMessage: "Please fill in all required fields..---------.",
-//     //   });
-//     const productId = req.params.id;
-
-//     //validation
-
-//     if (
-//       !catgname &&
-//       !machname &&
-//       !cost &&
-//       !weight &&
-//       !quantity &&
-//       !offer &&
-//       !totalamount
-//     )
-//       return res.status(400).json({
-//         errorMessage: "Please specify all fields....",
-//       });
-
-//     if (!productId)
-//       return res
-//         .status(400)
-//         .json({ errorMessage: "no product with id was found" });
-
-//     const originalProduct = await Product.findById(productId);
-
-//     if (!originalProduct)
-//       return res
-//         .status(400)
-//         .json({ errorMessage: "No snippet with id was found" });
-//     if (
-//       !originalProduct.catgname &&
-//       !originalProduct.machname &&
-//       !originalProduct.cost &&
-//       !originalProduct.weight &&
-//       !originalProduct.quantity &&
-//       !originalProduct.offer &&
-//       !originalProduct.totalamount
-//     ) {
-//       return res.status(400).json({
-//         errorMessage: "Please specify all fields!!",
-//       });
-//     }
-
-//     if (originalProduct.merchant.toString() !== req.merchant)
-//       return res.status(401).json({ errorMessage: "Unauthorized" });
-
-//     originalProduct.catgname = catgname;
-//     originalProduct.machname = machname;
-//     originalProduct.cost = cost;
-//     originalProduct.weight = weight;
-//     originalProduct.quantity = quantity;
-//     originalProduct.offer = offer;
-//     originalProduct.totalamount = totalamount;
-
-//     const saveProduct = await originalProduct.save();
-//     res.json(saveProduct);
-//   } catch (err) {
-//     res.status(500).send();
-//     console.log(err);
-//   }
-// });
 
 router.put("/:id", authMerchant, async (req, res) => {
   try {
@@ -248,7 +201,7 @@ router.put("/:id", authMerchant, async (req, res) => {
 
     console.log(
       "totalamount--------------------------------" +
-      originalProduct.totalamount
+        originalProduct.totalamount
     );
 
     var nameExp = /^[A-Za-z]*$/;
@@ -277,6 +230,7 @@ router.put("/:id", authMerchant, async (req, res) => {
       return res.status(400).json({
         errorMessage: "please enter quantity between  1 and 400",
       });
+    0.0;
 
     // if (originalProduct.phone.length < 10 || phone.length > 10)
     //   return res.status(400).json({
