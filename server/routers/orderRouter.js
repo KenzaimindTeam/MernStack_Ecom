@@ -126,13 +126,36 @@ router.post("/createOrder/:id", authUser, async (req, res) => {
     //    req.user=req.profile
     // console.log("000000000000" + profile);
 
-    const { amount, products, address } = req.body;
-    // console.log(Pimage);
-
-    console.log(amount + products + address);
+  const { amount, products, address } = req.body;
+  console.log("------------------pro=======" + products);
+  console.log(amount + products + address);
     const order = new Order({ amount, products, address, user });
+    
     // quantity=
     console.log("ORDerrrrrrrr" + order);
+
+
+let bulkOps = order.products.map((item) => {
+  return {
+    updateOne: {
+      filter: { _id: item._id },
+      update: { $set: { quantity: item.quantity - item.count } },
+    },
+  };
+  console.log(quantity);
+});
+
+Product.bulkWrite(bulkOps, {}, (error, products) => {
+  // console.log("-----------"+products)
+  if (error) {
+    return res.status(400).json({
+      error: "Could not update product",
+    });
+  }
+  next();
+});
+    
+
     order.save((error, values) => {
       if (error) {
         console.log(error);
