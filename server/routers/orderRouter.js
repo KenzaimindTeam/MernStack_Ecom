@@ -115,7 +115,7 @@ router.get("/ordersLists", authUser, async (req, res) => {
     res.status(500).send();
   }
 });
-router.post("/createOrder/:id", authUser, async (req, res) => {
+router.post("/createOrder/:id", authUser, async (req, res,next) => {
   try {
     console.log("######In create order backend#####");
     const token = req.cookies.token;
@@ -133,6 +133,7 @@ router.post("/createOrder/:id", authUser, async (req, res) => {
     
     // quantity=
     console.log("ORDerrrrrrrr" + order);
+    const productss = await Product.findById(products);
 
 
 let bulkOps = order.products.map((item) => {

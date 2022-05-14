@@ -9,6 +9,7 @@ const CartItemSchema = new mongoose.Schema(
     machname: String,
     cost: Number,
     count: Number,
+    quantity: Number,
   },
   { timestamps: true }
 );
