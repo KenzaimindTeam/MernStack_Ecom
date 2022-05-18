@@ -205,7 +205,7 @@ router.put("/:id", authMerchant, async (req, res) => {
         originalProduct.totalamount
     );
 
-    var nameExp = /^[A-Za-z]*$/;
+    var nameExp = /^[A-Za-z ]*$/;
     if (!nameExp.test(originalProduct.catgname))
       return res.status(400).json({
         errorMessage: "please enter text only",
@@ -231,7 +231,6 @@ router.put("/:id", authMerchant, async (req, res) => {
       return res.status(400).json({
         errorMessage: "please enter quantity between  1 and 400",
       });
-    0.0;
 
     // if (originalProduct.phone.length < 10 || phone.length > 10)
     //   return res.status(400).json({
