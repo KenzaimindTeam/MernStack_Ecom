@@ -261,13 +261,13 @@ router.put("/:id", authMerchant, async (req, res) => {
         errorMessage: "please enter total amount less than 100000",
       });
 
-    if (originalProduct.offer > originalProduct.totalamount)
+    if (originalProduct.offer.value > originalProduct.totalamount.value)
       return res.status(400).json({
         errorMessage: "Offer cannot be greater than original product",
       });
 
     if (
-      originalProduct.totalamount !==
+      originalProduct.totalamount !=
       originalProduct.cost - originalProduct.offer
     )
       return res.status(400).json({
