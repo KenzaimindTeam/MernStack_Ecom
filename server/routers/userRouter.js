@@ -381,7 +381,7 @@ router.post("/userRegister", async (req, res, next) => {
     var nameExp = /^[A-Za-z]*$/;
     if (!nameExp.test(firstname))
       return res.status(400).json({
-        errorMessage: "please enter text only",
+        errorMessage: "please enter text only without space",
       });
 
     var lnameExp = /^[A-Za-z]*$/;

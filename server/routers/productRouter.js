@@ -51,7 +51,7 @@ router.get("/:id", authMerchant, async (req, res) => {
 
     console.log(
       "id.................................................................................." +
-      productId
+        productId
     );
     const originalProduct = await Product.findById(productId);
 
@@ -148,6 +148,30 @@ router.post("/createProducts", authMerchant, async (req, res) => {
         errorMessage: "please enter numeric only for total amount ",
       });
 
+    if (catgname && machname < 3)
+      return res.status(400).json({
+        errorMessage: "please enter a name atleast three characters long",
+      });
+
+    if (totalamount.length > 6)
+      return res.status(400).json({
+        errorMessage: "please enter a total amount less than 100000",
+      });
+
+    if (cost.length > 6)
+      return res.status(400).json({
+        errorMessage: "please enter a cost less than 100000",
+      });
+    
+    if (offer.value > totalamount.value)
+      return res.status(400).json({
+        errorMessage: "Offer cannot be greater than total amount",
+      });
+
+    if (totalamount !=(cost) -( offer))
+      return res.status(400).json({
+        errorMessage: "Total amount should be cost minus the offer ",
+      });
 
     const newProduct = new Product({
       catgname,
@@ -232,10 +256,24 @@ router.put("/:id", authMerchant, async (req, res) => {
         errorMessage: "please enter quantity between  1 and 400",
       });
 
-    // if (originalProduct.phone.length < 10 || phone.length > 10)
-    //   return res.status(400).json({
-    //     errorMessage: "please enter correct Phone number",
-    //   });
+    if (originalProduct.totalamount.length > 6)
+      return res.status(400).json({
+        errorMessage: "please enter total amount less than 100000",
+      });
+
+    if (originalProduct.offer > originalProduct.totalamount)
+      return res.status(400).json({
+        errorMessage: "Offer cannot be greater than original product",
+      });
+
+    if (
+      originalProduct.totalamount !==
+      originalProduct.cost - originalProduct.offer
+    )
+      return res.status(400).json({
+        errorMessage: "Total amount should be cost minus the offer ",
+      });
+
     //profileImg = image;
     // if (!originalUser.firstName || !originalUser.lastName || !originalUser.phone || !originalUser.email) {
     //   return res.status(400).json({
