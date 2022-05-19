@@ -239,8 +239,11 @@ function UserLogin() {
                           placeholder="Enter Password"
                           onChange={(e) => setFormPassword(e.target.value)}
                         />
-                        <Link to="/userForgotpassword">Forgot password?</Link>
-
+                        <strong>
+                          <Link  style={{color:'red'}} to="/userForgotpassword">Forgot password?</Link>
+                        </strong>
+                        <br/>
+                        <br/>
                         <input type="submit" defaultValue="Submit" />
                       </fieldset>
                     </form>
@@ -248,7 +251,9 @@ function UserLogin() {
                   <br />
                   <p>
                     Don't have an account yet?{" "}
-                    <Link to="/userRegister">Register here</Link>
+                    <strong>
+                      <Link style={{color:'black'}} to="/userRegister">Register here</Link>
+                    </strong>  
                   </p>
                 </div>
               </div>

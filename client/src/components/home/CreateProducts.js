@@ -271,6 +271,7 @@ function CreateProducts() {
                         onChange={(e) => setCatgName(e.target.value)}
                       /> */}
                       <select
+                        style={{width:'100%', height:'45px'}}
                         id="form-catg"
                         onChange={(e) => setCatgName(e.target.value)}
                       >

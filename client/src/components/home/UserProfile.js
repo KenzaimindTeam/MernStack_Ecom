@@ -276,15 +276,21 @@ function UserProfile() {
                   />
 
                   <Link
-                    className="btn-edit"
+                    className="btn btn-edit"
                     type="button"
+                    style={{backgroundColor:'red', color:'white'}}
                     to="/updateUser"
                     // onClick={() => }
                   >
                     Update
                   </Link>
+                  <br/>
                   <br />
-                  <Link to="/userChangePassword">Change password</Link>
+                  <Link 
+                  className="btn btn-secondary"
+                  type="button"
+                  style={{backgroundColor:'black'}}
+                  to="/userChangePassword">Change password</Link>
 
                   {/* <input type="submit" defaultValue="Update" /> */}
                   {/* </fieldset> */}

@@ -233,7 +233,8 @@ function MerchantProfile() {
                         readOnly={true}
                       />
                       <Link
-                        className="btn btn-primary"
+                        className="btn btn-secondary"
+                        style={{backgroundColor:'red'}}
                         type="button"
                         to="/updateMerchant"
                         // onClick={() => }
@@ -241,7 +242,10 @@ function MerchantProfile() {
                         Update
                       </Link>
                       <br />
-                      <Link style={{ color :'red' }} to="/merchangepassword">
+                      <br/>
+                      <Link 
+                      className="btn btn-secondary"
+                      style={{ color :'white', backgroundColor:"black" }} to="/merchangepassword">
                         Change password
                       </Link>
 

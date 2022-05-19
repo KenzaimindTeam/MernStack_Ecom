@@ -281,13 +281,15 @@ function UserOrders() {
                           <Col>Rs.{order.amount}/-</Col>
                           <Col>{order.status}</Col>
                           <Col>
-                            <Link
-                              to={`/orderProductView/${order._id}`}
-                              key={i}
-                              order={{ order }}
-                            >
-                              Click here to view products ordered
-                            </Link>
+                            <strong>
+                              <Link
+                                to={`/orderProductView/${order._id}`}
+                                key={i}
+                                order={{ order }}
+                              >
+                                Click here to view products ordered
+                              </Link>
+                            </strong>
                           </Col>
                           {/* <div className="fo"> */}
                           {/* <tr>

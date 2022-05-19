@@ -242,9 +242,9 @@ function MerchantLogin() {
                           placeholder="Enter Password"
                           onChange={(e) => setFormPassword(e.target.value)}
                         />
-                        <Link style={{ color: "red" }} to="/merforgotpassword">
+                        <strong><Link style={{ color: "red" }} to="/merforgotpassword">
                           Forgot password?
-                        </Link>
+                        </Link></strong>
                         <br />
                         <br />
 
@@ -260,9 +260,9 @@ function MerchantLogin() {
                   </div>
                 </div>
                 <p>Don't have an account yet?</p>
-                <Link style={{ color: "blue" }} to="/merchantRegister">
+                <strong ><Link style={{ color: "black" }} to="/merchantRegister">
                   Register here{" "}
-                </Link>
+                </Link></strong>
               </div>
             </div>
           </section>
