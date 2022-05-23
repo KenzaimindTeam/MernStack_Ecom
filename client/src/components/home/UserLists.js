@@ -93,14 +93,14 @@ const pages = new Array(numberOfPages).fill(null).map((v, i) => i);
                         </a>
                       </li>
 
-                      <form className="form-inline">
+                  {/*    <form className="form-inline">
                         <button
                           className="btn  my-2 my-sm-0 nav_search-btn"
                           type="submit"
                         >
                           <i className="fa fa-search" aria-hidden="true" />
                         </button>
-                      </form>
+  </form> */}
                     </div>
                   </div>
                 </nav>

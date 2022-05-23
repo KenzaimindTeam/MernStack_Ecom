@@ -33,7 +33,7 @@ function UpdateUser() {
 
   async function logout() {
     await Axios.get("http://localhost:5000/auth/logOut");
-    navigate("/");
+    navigate("/userLogin");
   }
   async function register(e) {
     e.preventDefault();
@@ -166,7 +166,7 @@ function UpdateUser() {
                       <a className="nav-link" href="contact.html">
                         Contact
                       </a>
-                    </li> */}
+                    </li> 
                   <li className="nav-item">
                     <a className="nav-link" href="#">
                       <svg
@@ -222,7 +222,7 @@ function UpdateUser() {
                           <g></g>
                           <g></g>
                           <g></g>
-                          <g></g> */}
+                          <g></g> 
                       </svg>
                     </a>
                   </li>
@@ -233,7 +233,7 @@ function UpdateUser() {
                     >
                       <i className="fa fa-search" aria-hidden="true" />
                     </button>
-                  </form>
+                      </form>*/}
                 </ul>
               </div>
             </nav>

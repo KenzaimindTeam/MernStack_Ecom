@@ -121,7 +121,7 @@ function UserContact() {
                       <a className="nav-link" href="contact.html">
                         Contact
                       </a>
-                    </li> */}
+                    </li> 
                       <form className="form-inline">
                         <button
                           className="btn  my-2 my-sm-0 nav_search-btn"
@@ -129,7 +129,7 @@ function UserContact() {
                         >
                           <i className="fa fa-search" aria-hidden="true" />
                         </button>
-                      </form>
+                    </form>*/}
                     </div>
                   </div>
                 </nav>

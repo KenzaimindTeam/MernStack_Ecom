@@ -137,7 +137,7 @@ function OrderProductView(order) {
                       <a className="nav-link" href="contact.html">
                         Contact
                       </a>
-                    </li> */}
+                    </li> 
                   <li className="nav-item">
                     <a className="nav-link" href="#">
                       <svg
@@ -193,7 +193,7 @@ function OrderProductView(order) {
                           <g></g>
                           <g></g>
                           <g></g>
-                          <g></g> */}
+                          <g></g> 
                       </svg>
                     </a>
                   </li>
@@ -204,7 +204,7 @@ function OrderProductView(order) {
                     >
                       <i className="fa fa-search" aria-hidden="true" />
                     </button>
-                  </form>
+                      </form> */}
                 </ul>
               </div>
             </nav>
