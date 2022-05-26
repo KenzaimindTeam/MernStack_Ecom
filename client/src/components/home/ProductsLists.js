@@ -3,11 +3,13 @@ import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import MerchantContext from "../../context/MerchantContext";
 import ErrorMessage from "../misc/ErrorMessage";
+import Pagination from "./Pagination";
 
 function ProductsLists() {
   const [merchant, setMerchant] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
   const [products, setProducts] = useState([]);
+  
 
   let navigate = useNavigate();
 
@@ -31,12 +33,18 @@ function ProductsLists() {
     setMerchant(merchantRes.data);
   }
 
-  useEffect(() => {
-    getMerchant();
+  const [data, setData] = useState([]); 
+  const [perpage, setPerpage] = useState([]);
+  const itemsUrl = 'http://localhost:5000/product/productsLists';
+  useEffect(() => { 
+    Axios.get(`${itemsUrl}`).then(
+      res => { setData(res.data); setPerpage(res.data.slice(0, 2)); } 
+    )
     getProducts();
-    //   console.log("merchantprofile merchant   " + merchant.firstname);
-    //   console.log(products.catgname);
-  }, []);
+  }, [])
+  const pageHandler = (pageNumber) => {
+    setPerpage(data.slice((pageNumber * 2) - 2, pageNumber * 2)); 
+  }
 
   async function getProducts() {
     const productsRes = await Axios.get(
@@ -97,14 +105,14 @@ function ProductsLists() {
                         </a>
                       </li>
 
-                      <form className="form-inline">
+                  {/*    <form className="form-inline">
                         <button
                           className="btn  my-2 my-sm-0 nav_search-btn"
                           type="submit"
                         >
                           <i className="fa fa-search" aria-hidden="true" />
                         </button>
-                      </form>
+  </form> */}
                     </div>
                   </div>
                 </nav>
@@ -122,7 +130,7 @@ function ProductsLists() {
                       <ul className="navbar-nav">
                         <li className="nav-item">
                           <a className="nav-link" href="">
-                          
+
                             <span className="sr-only">(current)</span>
                           </a>
                         </li>
@@ -138,7 +146,7 @@ function ProductsLists() {
                       <ul className="navbar-nav">
                         <li className="nav-item">
                           <a className="nav-link" href="">
-                            
+
                             <span className="sr-only">(current)</span>
                           </a>
                         </li>
@@ -146,7 +154,7 @@ function ProductsLists() {
                       <ul className="navbar-nav">
                         <li className="nav-item">
                           <a className="nav-link" href="">
-                            
+
                             <span className="sr-only">(current)</span>
                           </a>
                         </li>
@@ -176,60 +184,79 @@ function ProductsLists() {
                       id="form"
                       encType="multipart/form-data"
                     >
-                      <table className="table">
-                        <thead className="thead-dark">
-                          <tr key="index">
-                            <th>Category Name</th>
-                            <th>Machine name</th>
-                            <th>Cost</th>
-                            <th>Weight</th>
-                            <th>Quantity</th>
-                            <th>Offer</th>
-                            <th>Total Amount</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-                          </tr>
-                        </thead>
-                        {products.map((product, i) => {
-                          return (
-                            <tbody>
-                              <tr i={product._id}>
-                                {/* <td>{product._id}</td> */}
-                                <td>{product.catgname}</td>
+                      <div  >
 
-                                <td>{product.machname}</td>
-                                <td>{product.cost}</td>
-                                <td>{product.weight}</td>
-                                <td>{product.quantity}</td>
-                                <td>{product.offer}</td>
-                                <td>{product.totalamount}</td>
-                                <td>
-                                  <Link
-                                    className="btn btn-primary"
-                                    to={`/editProduct/${product._id}`}
-                                    key={i}
-                                    product={{ product }}
-                                    getProducts={{ getProducts }}
-                                  >
-                                    Edit
-                                  </Link>
-                                </td>
-                                <td>
-                                  <button
-                                    type="button"
-                                    className="btn btn-danger"
-                                    onClick={() =>
-                                      deleteProductList(product._id)
-                                    }
-                                  >
-                                    Delete
-                                  </button>
-                                </td>
-                              </tr>
-                            </tbody>
-                          );
-                        })}
-                      </table>
+
+                        {data.length >= 1 ?
+                          <div >
+                            <div>
+                              <table className="table">
+                                <thead className="thead-dark">
+                                  <tr key="index">
+                                    <th>Category Name</th>
+                                    <th>Machine name</th>
+                                    <th>Cost</th>
+                                    <th>Weight</th>
+                                    <th>Quantity</th>
+                                    <th>Offer</th>
+                                    <th>Total Amount</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                  </tr>
+                                </thead>
+                                {perpage.map((product, i) => {
+                                  return (
+                                    <tbody>
+                                      <tr i={product._id}>
+                                        {/* <td>{product._id}</td> */}
+                                        <td>{product.catgname}</td>
+
+                                        <td>{product.machname}</td>
+                                        <td>{product.cost}</td>
+                                        <td>{product.weight}</td>
+                                        <td>{product.quantity}</td>
+                                        <td>{product.offer}</td>
+                                        <td>{product.totalamount}</td>
+                                        <td>
+                                          <Link
+                                            className="btn btn-primary"
+                                            to={`/editProduct/${product._id}`}
+                                            key={i}
+                                            product={{ product }}
+                                            getProducts={{ getProducts }}
+                                          >
+                                            Edit
+                                          </Link>
+                                        </td>
+                                        <td>
+                                          <button
+                                            type="button"
+                                            className="btn btn-danger"
+                                            onClick={() =>
+                                              deleteProductList(product._id)
+                                            }
+                                          >
+                                            Delete
+                                          </button>
+                                        </td>
+
+                                      </tr>
+                                    </tbody>
+                                  );
+                                })}
+                              </table>
+                              <br />
+                              <br />
+
+                            </div>
+
+                          </div>
+                          :
+                          <p>data not loaded</p>
+                        }
+                        <br />
+                        <Pagination data={data} pageHandler={pageHandler} />
+                      </div><br />
                     </form>
                   </div>
                 </div>
