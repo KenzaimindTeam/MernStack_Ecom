@@ -33,7 +33,7 @@ function UserOrders() {
 
   async function logout() {
     await Axios.get("http://localhost:5000/auth/logOut");
-    navigate("/");
+    navigate("/userLogin");
   }
 
   return (
@@ -130,7 +130,7 @@ function UserOrders() {
                       <a className="nav-link" href="contact.html">
                         Contact
                       </a>
-                    </li> */}
+                    </li> 
                   <li className="nav-item">
                     <a className="nav-link" href="#">
                       <svg
@@ -186,7 +186,7 @@ function UserOrders() {
                           <g></g>
                           <g></g>
                           <g></g>
-                          <g></g> */}
+                          <g></g> 
                       </svg>
                     </a>
                   </li>
@@ -197,7 +197,7 @@ function UserOrders() {
                     >
                       <i className="fa fa-search" aria-hidden="true" />
                     </button>
-                  </form>
+                      </form> */}
                 </ul>
               </div>
             </nav>
@@ -258,6 +258,36 @@ function UserOrders() {
                 <br />
                 {/* <form className="form" id="form" encType="multipart/form-data"> */}
                 {/* <fieldset> */}
+                <Container>
+                  {/* <tbody i={order._id}></tbody> */}
+                  <Row
+                    style={{
+                      background: "black",
+                      paddingTop: 10,
+                      width:'120%',
+                      border: "2px solid",
+                      borderColor: "white",
+                      color: "white",
+                    }}
+                  >
+                    <Col>S.no</Col>
+                    <Col>Id</Col>
+                    
+                    <Col>Ordered At </Col>
+                    <br/>
+                    <br/>
+                    <Col>Amount</Col>
+                    <Col>Status</Col>
+                    <Col>Product </Col>
+                    
+
+                  </Row>
+                  {/* </tbody> */}
+                </Container>
+                
+                
+
+
 
                 {orders.map((order, i) => {
                   return (
@@ -266,7 +296,8 @@ function UserOrders() {
                         {/* <tbody i={order._id}></tbody> */}
                         <Row
                           style={{
-                            background: "skyblue",
+                            background: "#FFF8DC",
+                            width:'120%',
                             paddingTop: 10,
                             border: "2px solid",
                             borderColor: "white",
@@ -276,7 +307,7 @@ function UserOrders() {
                           <Col>{i + 1}</Col>
                           <Col>{order._id}</Col>
 
-                          <Col>Order History</Col>
+                          
                           <Col>{order.createdAt}</Col>
                           <Col>Rs.{order.amount}/-</Col>
                           <Col>{order.status}</Col>
