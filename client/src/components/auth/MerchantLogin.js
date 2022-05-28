@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useRef} from "react";
 import Axios from "axios";
 
 // eslint-disable-next-line no-unused-vars
@@ -10,6 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 function MerchantLogin() {
   const [formEmail, setFormEmail] = useState("");
   const [formPassword, setFormPassword] = useState("");
+  const firstItemRef = useRef(null);
 
   let navigate = useNavigate();
   console.log(formPassword);
@@ -72,14 +73,28 @@ function MerchantLogin() {
                         </a>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link" href="">
+                        <Link
+                          className="nav-link"
+                          to="/userLogin"
+                          onClick={() => alert("Please Sign-in to Shop our Products..")}
+                        >
                           SHOP
                           {/* <span className="sr-only">(current)</span> */}
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link" href="">
+                        <Link
+                          className="nav-link"
+                          to=""
+                          onClick={() => firstItemRef.current.scrollIntoView()}
+                        >
                           CONTACT
+                          {/* <span className="sr-only">(current)</span> */}
+                        </Link>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="/merchantRegister">
+                          REGISTER
                           {/* <span className="sr-only">(current)</span> */}
                         </a>
                       </li>
@@ -123,7 +138,7 @@ function MerchantLogin() {
                       <a className="nav-link" href="contact.html">
                         Contact
                       </a>
-                    </li> */}
+                    </li> 
                       <li className="nav-item">
                         <a className="nav-link" href="#">
                           <svg
@@ -179,7 +194,7 @@ function MerchantLogin() {
                           <g></g>
                           <g></g>
                           <g></g>
-                          <g></g> */}
+                          <g></g> 
                           </svg>
                         </a>
                       </li>
@@ -190,7 +205,7 @@ function MerchantLogin() {
                         >
                           <i className="fa fa-search" aria-hidden="true" />
                         </button>
-                      </form>
+                          </form> */}
                     </ul>
                   </div>
                 </nav>
@@ -314,7 +329,7 @@ function MerchantLogin() {
 
           {/* footer section */}
           <footer className="footer_section">
-            <div className="container">
+            <div className="container" Item ref={firstItemRef}>
               <div className="row">
                 <div className="col-md-4 footer-col">
                   <div className="footer_contact">
@@ -330,7 +345,7 @@ function MerchantLogin() {
                       </a>
                       <a href="">
                         <i className="fa fa-envelope" aria-hidden="true" />
-                        <span>Sangeetha@gmail.com</span>
+                        <span>Mahineetha@gmail.com</span>
                       </a>
                     </div>
                   </div>

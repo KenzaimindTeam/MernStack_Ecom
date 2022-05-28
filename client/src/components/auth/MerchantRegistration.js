@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState , useRef} from "react";
 import Axios from "axios";
 import MerchantContext from "../../context/MerchantContext";
 import ReactDOM from "react-dom";
@@ -23,6 +23,7 @@ function MerchantRegistration() {
   const [zipcode, setZipcode] = useState("");
 
   const [errorMessage, setErrorMessage] = useState(null);
+  const firstItemRef = useRef(null);
   //  const { getMerchant } = useContext(MerchantContext);
 
   async function logOutt() {
@@ -115,10 +116,14 @@ function MerchantRegistration() {
                         </a>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link" href="/merchantLogin">
+                        <Link
+                          className="nav-link"
+                          to=""
+                          onClick={() => firstItemRef.current.scrollIntoView()}
+                        >
                           CONTACT
                           {/* <span className="sr-only">(current)</span> */}
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
                         <a className="nav-link" href="/merchantLogin">
@@ -166,7 +171,7 @@ function MerchantRegistration() {
                       <a className="nav-link" href="contact.html">
                         Contact
                       </a>
-                    </li> */}
+                    </li> 
                       <li className="nav-item">
                         <a className="nav-link" href="#">
                           <svg
@@ -222,7 +227,7 @@ function MerchantRegistration() {
                           <g></g>
                           <g></g>
                           <g></g>
-                          <g></g> */}
+                          <g></g> 
                           </svg>
                         </a>
                       </li>
@@ -233,7 +238,7 @@ function MerchantRegistration() {
                         >
                           <i className="fa fa-search" aria-hidden="true" />
                         </button>
-                      </form>
+                          </form> */}
                     </ul>
                   </div>
                 </nav>
@@ -416,7 +421,7 @@ function MerchantRegistration() {
 
           {/* footer section */}
           <footer className="footer_section">
-            <div className="container">
+            <div className="container" Item ref={firstItemRef}>
               <div className="row">
                 <div className="col-md-4 footer-col">
                   <div className="footer_contact">
@@ -432,7 +437,7 @@ function MerchantRegistration() {
                       </a>
                       <a href="">
                         <i className="fa fa-envelope" aria-hidden="true" />
-                        <span>Sangeetha@gmail.com</span>
+                        <span>Mahineetha@gmail.com</span>
                       </a>
                     </div>
                   </div>

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState , useRef} from "react";
 import Axios from "axios";
 
 import ReactDOM from "react-dom";
@@ -16,6 +16,7 @@ function UserRegister() {
   const [mobileNumber, setMobileNumber] = useState("");
 
   const [errorMessage, setErrorMessage] = useState(null);
+  const firstItemRef = useRef(null);
 
   async function logOutt() {
     await Axios.get("http://localhost:5000/auth/logOut");
@@ -88,7 +89,7 @@ function UserRegister() {
                   >
                     <ul className="navbar-nav">
                       <li className="nav-item">
-                        <a className="nav-link" href="">
+                        <a className="nav-link" href="/">
                           HOME
                           {/* <span className="sr-only">(current)</span> */}
                         </a>
@@ -100,8 +101,18 @@ function UserRegister() {
                         </a>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link" href="">
+                        <Link
+                          className="nav-link"
+                          to=""
+                          onClick={() => firstItemRef.current.scrollIntoView()}
+                        >
                           CONTACT
+                          {/* <span className="sr-only">(current)</span> */}
+                        </Link>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="/userLogin">
+                          LOGIN
                           {/* <span className="sr-only">(current)</span> */}
                         </a>
                       </li>
@@ -145,7 +156,7 @@ function UserRegister() {
                       <a className="nav-link" href="contact.html">
                         Contact
                       </a>
-                    </li> */}
+                    </li> 
                       <li className="nav-item">
                         <a className="nav-link" href="#">
                           <svg
@@ -201,7 +212,7 @@ function UserRegister() {
                           <g></g>
                           <g></g>
                           <g></g>
-                          <g></g> */}
+                          <g></g> 
                           </svg>
                         </a>
                       </li>
@@ -212,7 +223,7 @@ function UserRegister() {
                         >
                           <i className="fa fa-search" aria-hidden="true" />
                         </button>
-                      </form>
+                          </form> */}
                     </ul>
                   </div>
                 </nav>
@@ -342,7 +353,7 @@ function UserRegister() {
 
           {/* footer section */}
           <footer className="footer_section">
-            <div className="container">
+            <div className="container" Item ref={firstItemRef}>
               <div className="row">
                 <div className="col-md-4 footer-col">
                   <div className="footer_contact">
@@ -358,7 +369,7 @@ function UserRegister() {
                       </a>
                       <a href="">
                         <i className="fa fa-envelope" aria-hidden="true" />
-                        <span>Sangeetha@gmail.com</span>
+                        <span>Mahineetha@gmail.com</span>
                       </a>
                     </div>
                   </div>
