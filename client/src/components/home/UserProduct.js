@@ -26,6 +26,7 @@ function UserProduct(props) {
     //const [productDetails, setProductDetails] = useState([]);
     const [searchOn, setSearchOn] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
+    const [sort, setProName] = useState("");
 
     const [pageNumber, setPageNumber] = useState(0);
     const [numberOfPages, setNumberOfPages] = useState(0);
@@ -42,6 +43,7 @@ function UserProduct(props) {
     let navigate = useNavigate();
 
     const [products, setProducts] = useState([]);
+    const [order, setOrder] = useState("ASC");
     const [items, setItems] = useState([]);
     const [addtocart, setAddtocart] = useState(false);
     // const { cartItems, onAdd, onRemove } = props;
@@ -64,7 +66,7 @@ function UserProduct(props) {
 
     async function logout() {
         await Axios.get("http://localhost:5000/auth/logOut");
-        navigate("/");
+        navigate("/userLogin");
     }
 
     async function addToCart(product) {
@@ -93,8 +95,8 @@ function UserProduct(props) {
             );
         }
     };
-    
- 
+
+
     async function getProduct() {
         const productRes = await Axios.get(
             "http://localhost:5000/product/productsAll"
@@ -104,6 +106,28 @@ function UserProduct(props) {
         console.log(productRes.data);
     }
 
+    const sorting = (col) => {
+        if (order === "ASC") {
+            const sorted = [...products].sort((a, b) =>
+                a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
+
+            );
+            setProducts(sorted);
+            setOrder("DSC")
+        }
+    }
+
+    const sortng = (col) => {
+
+        if (order === "DSC") {
+            const sorted = [...products].sort((a, b) =>
+                a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1
+            );
+            setProducts(sorted);
+            setOrder("ASC");
+        }
+    };
+
     const gotoPrevious = () => {
         setPageNumber(Math.max(0, pageNumber - 1));
     };
@@ -111,6 +135,10 @@ function UserProduct(props) {
     const gotoNext = () => {
         setPageNumber(Math.min(numberOfPages - 1, pageNumber + 1));
     };
+
+    //}
+
+
 
     return (
         <div className="sub_page">
@@ -219,25 +247,74 @@ function UserProduct(props) {
                                         </a>
                                     </li>
 
-                                    <form className="form-inline">
-                                        <button
-                                            className="btn  my-2 my-sm-0 nav_search-btn"
-                                            type="submit"
+                                    <li className="nav-item dropdown">
+                                        <a
+                                            className="nav-link dropdown-toggle"
+                                            href="#"
+                                            id="navbarDropdown"
+                                            role="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
                                         >
-                                            <i className="fa fa-search" aria-hidden="true" />
-                                        </button>
+                                            filter by price
+                                        </a>
+                                        <div
+                                            className="dropdown-menu"
+                                            aria-labelledby="navbarDropdown"
+                                            style={{ Color: 'blue' }}
+                                        >
+                                            <button className="dropdown-item" onClick={() => sorting("totalamount")}>
+                                                lowest to highest
+                                            </button>
+                                            <button className="dropdown-item" onClick={() => sortng("totalamount")}>
+                                                highest to lowest
+                                            </button>
+
+                                        </div>
+                                    </li>
+
+
+                                    <form className="form-inline">
+                                        {/*   <button
+                      className="btn  my-2 my-sm-0 nav_search-btn"
+                      type="submit"
+                    >
+                      <i className="fa fa-search" aria-hidden="true" />
+                      </button> */}
                                         <input className="btn  my-2 my-sm-0 nav_search-btn"
                                             placeholder="Search products"
                                             style={{
                                                 borderColor: "black",
                                                 borderWidth: 5,
-                                                width: 250,
-                                            }} 
+                                                width: 150,
+                                            }}
                                             id="searchInput" type="text"
                                             onChange={(event) => {
                                                 setSearchTerm(event.target.value);
                                             }} />
-                                    </form>
+                                    </form><br /><br />
+
+                                    {/*  <li className="nav-item">
+                    <h5>Filter By Price</h5>
+                    <select
+                      style={{
+                        borderColor: "black",
+                        borderWidth: 3,
+                        width: 200,
+                      }}
+
+                      onClick = {() => sorting("totalamount")}
+                      
+                    >
+
+                      <option > Lowest to highest</option>
+                      <option>Highest to lowest</option>
+
+                    </select>
+                    </li> */}
+
+
                                 </ul>
                             </div>
                             {/* <!-- Modal --> */}
@@ -295,8 +372,8 @@ function UserProduct(props) {
                                         } else if (product.machname.toLowerCase().includes(searchTerm.toLowerCase())) {
                                             return product;
                                         }
-                                        
-                                       
+
+
                                     })
                                     .map((product, id) => {
                                         return (
